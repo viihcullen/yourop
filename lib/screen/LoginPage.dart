@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:yourop/firebase_options.dart';
 import 'package:flutter/material.dart';
-import 'package:yourop/screen/HomePage.dart';
+import 'package:yourop/screen/PesquisaPage.dart';
 import 'package:yourop/utils/validator.dart';
 import 'package:yourop/utils/fire_auth.dart';
 import 'PerfilPage.dart';
@@ -33,7 +33,7 @@ class _LoginPageState extends State<LoginPage> {
     if (user != null) {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) => HomePage(),
+          builder: (context) => SearchPage(),
         ),
       );
     }
@@ -179,7 +179,10 @@ class _LoginPageState extends State<LoginPage> {
                                   ),
                                 );
                               },
-                              child: Text('Esqueci minha senha', style: TextStyle(color:Colors.black),),
+                              child: Text(
+                                'Esqueci minha senha',
+                                style: TextStyle(color: Colors.black),
+                              ),
                             ),
                           ),
                         ],
