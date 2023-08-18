@@ -6,31 +6,12 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final alucard = Hero(
-      tag: 'hero',
-      child: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: CircleAvatar(
-          radius: 72.0,
-          backgroundColor: Colors.transparent,
-          child: SvgPicture.asset('logo.svg', color: Colors.white),
-        ),
-      ),
-    );
-
+   
     final welcome = Padding(
       padding: EdgeInsets.all(8.0),
       child: Text(
-        'Welcome Alucard',
+        'Bem -Vindo ${name.toStringAsFixed(2)}',
         style: TextStyle(fontSize: 28.0, color: Colors.white),
-      ),
-    );
-
-    final lorem = Padding(
-      padding: EdgeInsets.all(8.0),
-      child: Text(
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec hendrerit condimentum mauris id tempor. Praesent eu commodo lacus. Praesent eget mi sed libero eleifend tempor. Sed at fringilla ipsum. Duis malesuada feugiat urna vitae convallis. Aliquam eu libero arcu.',
-        style: TextStyle(fontSize: 16.0, color: Colors.white),
       ),
     );
 
@@ -44,7 +25,7 @@ class HomePage extends StatelessWidget {
         ]),
       ),
       child: Column(
-        children: <Widget>[alucard, welcome, lorem],
+        children: <Widget>[welcome],
       ),
     );
 

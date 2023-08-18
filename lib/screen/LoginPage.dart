@@ -179,7 +179,7 @@ class _LoginPageState extends State<LoginPage> {
                                   ),
                                 );
                               },
-                              child: Text('Esqueci minha senha'),
+                              child: Text('Esqueci minha senha', style: TextStyle(color:Colors.black),),
                             ),
                           ),
                         ],
