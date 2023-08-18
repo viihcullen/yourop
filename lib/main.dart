@@ -12,11 +12,6 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         brightness: Brightness.light,
         primarySwatch: Colors.deepPurple,
-        elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ElevatedButton.styleFrom(
-            padding: EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
-          ),
-        ),
       ),
       home: LoginPage(),
     );

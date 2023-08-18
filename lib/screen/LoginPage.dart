@@ -145,7 +145,10 @@ class _LoginPageState extends State<LoginPage> {
                                         ),
                                       ),
                                     ),
-                                    SizedBox(width: 24.0),
+                                    SizedBox(
+                                      width: 24.0,
+                                      height: 24.0,
+                                    ),
                                     Expanded(
                                       child: ElevatedButton(
                                         onPressed: () {
@@ -163,10 +166,22 @@ class _LoginPageState extends State<LoginPage> {
                                       ),
                                     ),
                                   ],
-                                )
-                                : Container(
-                                  Text()
                                 ),
+                          SizedBox(
+                            height: 24.0,
+                          ),
+                          Container(
+                            child: TextButton(
+                              onPressed: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => RegisterPage(),
+                                  ),
+                                );
+                              },
+                              child: Text('Esqueci minha senha'),
+                            ),
+                          ),
                         ],
                       ),
                     )

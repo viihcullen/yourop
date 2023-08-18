@@ -40,6 +40,7 @@ class _RegisterPageState extends State<RegisterPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                Image.asset("logo.png"),
                 Form(
                   key: _registerFormKey,
                   child: Column(
@@ -51,11 +52,11 @@ class _RegisterPageState extends State<RegisterPage> {
                           name: value,
                         ),
                         decoration: InputDecoration(
-                          hintText: "Name",
+                          hintText: "Nome",
                           errorBorder: UnderlineInputBorder(
                             borderRadius: BorderRadius.circular(6.0),
                             borderSide: BorderSide(
-                              color: Colors.red,
+                              color: Colors.deepOrange.shade300,
                             ),
                           ),
                         ),
@@ -72,7 +73,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           errorBorder: UnderlineInputBorder(
                             borderRadius: BorderRadius.circular(6.0),
                             borderSide: BorderSide(
-                              color: Colors.red,
+                              color: Colors.deepOrange.shade300,
                             ),
                           ),
                         ),
@@ -86,11 +87,11 @@ class _RegisterPageState extends State<RegisterPage> {
                           password: value,
                         ),
                         decoration: InputDecoration(
-                          hintText: "Password",
+                          hintText: "Senha",
                           errorBorder: UnderlineInputBorder(
                             borderRadius: BorderRadius.circular(6.0),
                             borderSide: BorderSide(
-                              color: Colors.red,
+                              color: Colors.deepOrange.shade300,
                             ),
                           ),
                         ),
@@ -134,7 +135,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                       }
                                     },
                                     child: Text(
-                                      'Sign up',
+                                      'Cadastrar',
                                       style: TextStyle(color: Colors.white),
                                     ),
                                   ),
