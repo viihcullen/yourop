@@ -135,7 +135,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       height: 10,
                     ),
                     SizedBox(
-                      width: 171,
+                      width: 30%,
                       child: Row(
                         children: [
                           ElevatedButton(
