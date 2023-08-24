@@ -3,16 +3,16 @@ import 'package:flutter/material.dart';
 import 'LoginPage.dart';
 import 'package:yourop/utils/fire_auth.dart';
 
-class PerfilPage extends StatefulWidget {
+class ValidarEmailPage extends StatefulWidget {
   final User user;
 
-  const PerfilPage({required this.user});
+  const ValidarEmailPage({required this.user});
 
   @override
-  _PerfilPageState createState() => _PerfilPageState();
+  _ValidarEmailPageState createState() => _ValidarEmailPageState();
 }
 
-class _PerfilPageState extends State<PerfilPage> {
+class _ValidarEmailPageState extends State<ValidarEmailPage> {
   bool _isSendingVerification = false;
   bool _isSigningOut = false;
 

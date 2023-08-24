@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'PerfilPage.dart';
+import 'package:yourop/screen/ValidarEmailPage.dart';
 import 'package:yourop/utils/fire_auth.dart';
 import 'package:yourop/utils/validator.dart';
 
@@ -127,7 +127,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                               .pushAndRemoveUntil(
                                             MaterialPageRoute(
                                               builder: (context) =>
-                                                  PerfilPage(user: user),
+                                                  ValidarEmailPage(user: user),
                                             ),
                                             ModalRoute.withName('/'),
                                           );

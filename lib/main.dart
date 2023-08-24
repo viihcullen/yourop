@@ -1,17 +1,23 @@
 import 'package:flutter/material.dart';
-import 'screen/LoginPage.dart';
-import 'screen/HomePage.dart';
+import 'package:yourop/screen/LoginPage.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(YourOpApp());
 
-class MyApp extends StatelessWidget {
+class YourOpApp extends StatelessWidget {
+  const YourOpApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      title: 'YourOp - Review de Conteúdo',
       theme: ThemeData(
         brightness: Brightness.light,
         primarySwatch: Colors.deepPurple,
+        inputDecorationTheme: const InputDecorationTheme(
+          border: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(50))),
+        ),
       ),
       home: LoginPage(),
     );

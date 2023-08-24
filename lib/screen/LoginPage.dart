@@ -2,10 +2,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:yourop/firebase_options.dart';
 import 'package:flutter/material.dart';
-import 'package:yourop/screen/PesquisaPage.dart';
+import 'package:yourop/navigation_controller.dart';
+import 'package:yourop/screen/ValidarEmailPage.dart';
 import 'package:yourop/utils/validator.dart';
 import 'package:yourop/utils/fire_auth.dart';
-import 'PerfilPage.dart';
 import 'RegisterPage.dart';
 
 class LoginPage extends StatefulWidget {
@@ -31,10 +31,10 @@ class _LoginPageState extends State<LoginPage> {
     User? user = FirebaseAuth.instance.currentUser;
 
     if (user != null) {
-      Navigator.of(context).pushReplacement(
+      Navigator.of(context).push(
         MaterialPageRoute(
-          builder: (context) => SearchPage(),
-        ),
+            builder: (context) => NavigationController(),
+            fullscreenDialog: false),
       );
     }
 
@@ -133,7 +133,8 @@ class _LoginPageState extends State<LoginPage> {
                                                   .pushReplacement(
                                                 MaterialPageRoute(
                                                   builder: (context) =>
-                                                      PerfilPage(user: user),
+                                                      ValidarEmailPage(
+                                                          user: user),
                                                 ),
                                               );
                                             }
