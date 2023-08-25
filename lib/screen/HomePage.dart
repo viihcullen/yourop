@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../utils/content.dart';
 import 'ReviewPage.dart';
@@ -35,6 +36,12 @@ class HomePage extends StatelessWidget {
       context,
       MaterialPageRoute(builder: (context) => ReviewPage(content: content)),
     );
+  }
+
+  final FirebaseAuth auth = FirebaseAuth.instance;
+
+  pegarUsuario() async {
+    final User? user = auth.currentUser;
   }
 
   @override

@@ -134,7 +134,7 @@ class _FilterPageState extends State<FilterPage> {
             padding: const EdgeInsets.all(10.0),
             child: ElevatedButton(
               onPressed: () {
-                // Aplicar os filtros selecionados
+                
               },
               child: const Text('Aplicar Filtros'),
             ),

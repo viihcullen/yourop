@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'Teste.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -68,8 +69,7 @@ class _ProfilePageState extends State<ProfilePage> {
             ElevatedButton(
               onPressed: () {
                 Navigator.of(context).pop();
-                Navigator.of(context)
-                    .pop(); // Fechar o diálogo e a tela de perfil
+                Navigator.of(context).pop();
               },
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(Colors.white),
@@ -86,7 +86,7 @@ class _ProfilePageState extends State<ProfilePage> {
             const SizedBox(width: 40),
             ElevatedButton(
               onPressed: () {
-                Navigator.of(context).pop(); // Fechar o diálogo
+                Navigator.of(context).pop();
               },
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(Colors.white),
@@ -118,7 +118,7 @@ class _ProfilePageState extends State<ProfilePage> {
             const CircleAvatar(
               radius: 60,
               backgroundImage: NetworkImage(
-                'https://example.com/user_profile_image.jpg', // URL da imagem do perfil
+                'https://example.com/user_profile_image.jpg', 
               ),
             ),
             const SizedBox(height: 20),
@@ -151,9 +151,23 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               child: Text('Sair da Conta'),
             ),
+            ElevatedButton(
+              onPressed: () {
+                _navigate(context);
+              },
+              style: ElevatedButton.styleFrom(
+                primary: Colors.green,
+              ),
+              child: Text('Perfil'),
+            ),
           ],
         ),
       ),
     );
+  }
+
+  void _navigate(BuildContext context) {
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => Teste()));
   }
 }
