@@ -87,7 +87,34 @@ class HomePage extends StatelessWidget {
               ),
             ),
             Container(
-              height: 500,
+              height: 150,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: availableContents.length,
+                itemBuilder: (context, index) {
+                  final content = availableContents[index];
+                  return Container(
+                    width: 150,
+                    child: ListTile(
+                      title: Text(content.title),
+                      subtitle: Text(content.genre),
+                      onTap: () {
+                        _navigateToReviewPage(context, content);
+                      },
+                    ),
+                  );
+                },
+              ),
+            ),
+            Text(
+              'Talvez você goste',
+              style: TextStyle(
+                fontSize: 17,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Container(
+              height: 150,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: availableContents.length,
