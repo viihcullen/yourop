@@ -30,6 +30,9 @@ class _NavigationControllerState extends State<NavigationController> {
     return Scaffold(
       body: _pages[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        showUnselectedLabels: false,
+        showSelectedLabels: false,
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
         items: [
@@ -39,7 +42,8 @@ class _NavigationControllerState extends State<NavigationController> {
               icon: Icon(Icons.favorite, color: Colors.black),
               label: "Favorite"),
           BottomNavigationBarItem(
-              icon: Icon(Icons.filter, color: Colors.black), label: "Filter"),
+              icon: Icon(Icons.filter_alt_outlined, color: Colors.black),
+              label: "Filter"),
           BottomNavigationBarItem(
               icon: Icon(Icons.person, color: Colors.black), label: "User"),
         ],

@@ -54,7 +54,56 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   void _signOut() {
-    Navigator.pop(context);
+    _showSignOutConfirmation();
+  }
+
+  void _showSignOutConfirmation() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Sair da Conta'),
+          content: Text('Nosso tempo foi tão curto, deseja mesmo ir embora?'),
+          actions: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                Navigator.of(context)
+                    .pop(); // Fechar o diálogo e a tela de perfil
+              },
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Colors.white),
+              ),
+              child: const Padding(
+                padding: EdgeInsets.all(4),
+                child: Row(
+                  children: [
+                    Text('Sim', style: TextStyle(color: Colors.black)),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(width: 40),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Fechar o diálogo
+              },
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Colors.white),
+              ),
+              child: const Padding(
+                padding: EdgeInsets.all(4),
+                child: Row(
+                  children: [
+                    Text('Não', style: TextStyle(color: Colors.black)),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -66,13 +115,13 @@ class _ProfilePageState extends State<ProfilePage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            CircleAvatar(
+            const CircleAvatar(
               radius: 60,
               backgroundImage: NetworkImage(
                 'https://example.com/user_profile_image.jpg', // URL da imagem do perfil
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             _isEditing
                 ? TextField(
                     controller: _usernameController,
@@ -84,7 +133,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     'Nome de Usuário',
                     style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                   ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             _isEditing
                 ? ElevatedButton(
                     onPressed: _saveChanges,
@@ -94,11 +143,9 @@ class _ProfilePageState extends State<ProfilePage> {
                     onPressed: _startEditing,
                     child: Text('Editar Perfil'),
                   ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () {
-                SairPage();
-              },
+              onPressed: _signOut,
               style: ElevatedButton.styleFrom(
                 primary: Colors.red,
               ),
@@ -108,79 +155,5 @@ class _ProfilePageState extends State<ProfilePage> {
         ),
       ),
     );
-  }
-
-  void SairPage() {
-    runApp(MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Card(
-            elevation: 50,
-            shadowColor: Colors.black,
-            child: SizedBox(
-              width: 300,
-              height: 300,
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Column(
-                  children: [
-                    const Text(
-                      'Nosso tempo foi tão curto, deseja mesmo ir embora?',
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.black,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    SizedBox(
-                      width: 30%,
-                      child: Row(
-                        children: [
-                          ElevatedButton(
-                            onPressed: () => null,
-                            style: ButtonStyle(
-                              backgroundColor:
-                                  MaterialStateProperty.all(Colors.white),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(4),
-                              child: Row(
-                                children: const [
-                                  Text('Sim',
-                                      style: TextStyle(color: Colors.black))
-                                ],
-                              ),
-                            ),
-                          ),
-                          SizedBox(width: 40),
-                          ElevatedButton(
-                            onPressed: () => null,
-                            style: ButtonStyle(
-                              backgroundColor:
-                                  MaterialStateProperty.all(Colors.white),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(4),
-                              child: Row(
-                                children: const [
-                                  Text('Não',
-                                      style: TextStyle(color: Colors.black))
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
-    ));
   }
 }

@@ -3,14 +3,8 @@ import '../utils/content.dart';
 import 'ReviewPage.dart';
 import 'SearchPage.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
-  @override
-  _HomePageState createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  List<Content> availableContents = [
+class HomePage extends StatelessWidget {
+  final List<Content> availableContents = [
     Content(
       title: 'Game A',
       genre: 'Ação',
@@ -31,23 +25,51 @@ class _HomePageState extends State<HomePage> {
     ),
   ];
 
+  void _navigateToSearchPage(BuildContext context) {
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => SearchPage()));
+  }
+
+  void _navigateToReviewPage(BuildContext context, Content content) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => ReviewPage(content: content)),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Container(
-      padding: EdgeInsets.all(20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          IconButton(
-            icon: new Icon(Icons.search),
-            alignment: Alignment.bottomRight,
-            onPressed: () {
-              _navigate(context);
-            },
-          ),
-          Container(
+      body: Container(
+        padding: EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Container(
+              alignment: Alignment.bottomRight,
+              child: Ink(
+                decoration: const ShapeDecoration(
+                  shadows: [
+                    BoxShadow(
+                      color: Colors.black12,
+                      offset: Offset(0, 1),
+                      blurRadius: 2.0,
+                    ),
+                  ],
+                  shape: CircleBorder(),
+                ),
+                child: IconButton(
+                  icon: const Icon(Icons.search),
+                  padding: const EdgeInsets.all(10.0),
+                  onPressed: () {
+                    _navigateToSearchPage(context);
+                  },
+                  iconSize: 30,
+                ),
+              ),
+            ),
+            Container(
               height: 150,
               child: Text(
                 'Bem - Vindo .....',
@@ -55,15 +77,16 @@ class _HomePageState extends State<HomePage> {
                   fontSize: 30,
                   fontWeight: FontWeight.bold,
                 ),
-              )),
-          Text(
-            'Talvez você goste',
-            style: TextStyle(
-              fontSize: 17,
-              fontWeight: FontWeight.bold,
+              ),
             ),
-          ),
-          Container(
+            Text(
+              'Talvez você goste',
+              style: TextStyle(
+                fontSize: 17,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Container(
               height: 500,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
@@ -76,24 +99,16 @@ class _HomePageState extends State<HomePage> {
                       title: Text(content.title),
                       subtitle: Text(content.genre),
                       onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ReviewPage(content: content),
-                          ),
-                        );
+                        _navigateToReviewPage(context, content);
                       },
                     ),
                   );
                 },
-              ))
-        ],
+              ),
+            ),
+          ],
+        ),
       ),
-    ));
-  }
-
-  void _navigate(BuildContext context) {
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => SearchPage()));
+    );
   }
 }

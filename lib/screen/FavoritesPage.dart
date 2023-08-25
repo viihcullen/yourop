@@ -1,6 +1,4 @@
-
 import 'package:flutter/material.dart';
-
 
 class FavoritesScreen extends StatefulWidget {
   const FavoritesScreen({Key? key}) : super(key: key);
@@ -19,9 +17,6 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Favoritos'),
-      ),
       body: ListView.builder(
         itemCount: favoriteContents.length,
         itemBuilder: (context, index) {

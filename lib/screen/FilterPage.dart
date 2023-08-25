@@ -9,22 +9,52 @@ class FilterPage extends StatefulWidget {
 }
 
 class _FilterPageState extends State<FilterPage> {
-  List<String> selectedGenres = [];
+  List<String> selectedCategoria = [];
+  List<String> selectedGeneros = [];
 
-  final List<String> availableGenres = [
+  final List<String> availableGeneros = [
     'Ação',
-    'Drama',
+    'Aventura',
     'Comédia',
+    'Drama',
+    'Ficção Científica',
     'Fantasia',
-    // Adicione mais gêneros aqui
+    'Terror',
+    'Romance',
+    'Documentário',
+    'Animação',
+    'Mistério',
+    'Suspense',
+    'Crime',
+    'Musical',
+    'História',
+    'Biografia',
+    'Esportes',
+    'Família',
+  ];
+  final List<String> availableCategoria = [
+    'Games',
+    'Filmes e Séries',
+    'Animes',
+    'Dramas',
   ];
 
-  void _toggleGenre(String genre) {
+  void _toggleGeneros(String genero) {
     setState(() {
-      if (selectedGenres.contains(genre)) {
-        selectedGenres.remove(genre);
+      if (selectedGeneros.contains(genero)) {
+        selectedGeneros.remove(genero);
       } else {
-        selectedGenres.add(genre);
+        selectedGeneros.add(genero);
+      }
+    });
+  }
+
+  void _toggleCategoria(String categoria) {
+    setState(() {
+      if (selectedCategoria.contains(categoria)) {
+        selectedCategoria.remove(categoria);
+      } else {
+        selectedCategoria.add(categoria);
       }
     });
   }
@@ -35,36 +65,78 @@ class _FilterPageState extends State<FilterPage> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          IconButton(
-            icon: new Icon(Icons.search),
+          Container(
             alignment: Alignment.bottomRight,
-            padding: new EdgeInsets.all(5.0),
-            onPressed: () {
-              _navigate(context);
-            },
+            child: Ink(
+              decoration: const ShapeDecoration(
+                shadows: [
+                  BoxShadow(
+                      color: Colors.black12,
+                      offset: Offset(0, 1),
+                      blurRadius: 2.0)
+                ],
+                shape: CircleBorder(),
+              ),
+              child: IconButton(
+                icon: const Icon(Icons.search),
+                padding: const EdgeInsets.all(10.0),
+                onPressed: () {
+                  _navigate(context);
+                },
+                iconSize: 30,
+              ),
+            ),
+          ),
+          const Text(
+            'Categoria',
+            style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+            textAlign: TextAlign.center,
           ),
           Expanded(
             child: ListView.builder(
-              itemCount: availableGenres.length,
+              itemCount: availableCategoria.length,
               itemBuilder: (context, index) {
-                final genre = availableGenres[index];
+                final categoria = availableCategoria[index];
                 return CheckboxListTile(
-                  title: Text(genre),
-                  value: selectedGenres.contains(genre),
+                  title: Text(categoria),
+                  value: selectedCategoria.contains(categoria),
                   onChanged: (value) {
-                    _toggleGenre(genre);
+                    _toggleCategoria(categoria);
+                  },
+                );
+              },
+            ),
+          ),
+          const Text(
+            'Selecione os filtros',
+            style: TextStyle(
+              fontSize: 25,
+              fontWeight: FontWeight.bold,
+            ),
+            textAlign: TextAlign.center,
+          ),
+          Expanded(
+            child: ListView.builder(
+              itemCount: availableGeneros.length,
+              itemBuilder: (context, index) {
+                final genero = availableGeneros[index];
+                return CheckboxListTile(
+                  title: Text(genero),
+                  value: selectedGeneros.contains(genero),
+                  onChanged: (value) {
+                    _toggleGeneros(genero);
                   },
                 );
               },
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(10.0),
             child: ElevatedButton(
               onPressed: () {
                 // Aplicar os filtros selecionados
               },
-              child: Text('Aplicar Filtros'),
+              child: const Text('Aplicar Filtros'),
             ),
           ),
         ],
