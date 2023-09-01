@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'Teste.dart';
 
@@ -54,7 +55,7 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  void _signOut() {
+  void _signOut() async {
     _showSignOutConfirmation();
   }
 
@@ -64,41 +65,25 @@ class _ProfilePageState extends State<ProfilePage> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('Sair da Conta'),
-          content: Text('Nosso tempo foi tão curto, deseja mesmo ir embora?'),
-          actions: [
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-                Navigator.of(context).pop();
-              },
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(Colors.white),
-              ),
-              child: const Padding(
-                padding: EdgeInsets.all(4),
-                child: Row(
-                  children: [
-                    Text('Sim', style: TextStyle(color: Colors.black)),
-                  ],
-                ),
-              ),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text('Nosso tempo foi tão curto, deseja mesmo ir embora?'),
+              ],
             ),
-            const SizedBox(width: 40),
-            ElevatedButton(
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Não'),
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(Colors.white),
-              ),
-              child: const Padding(
-                padding: EdgeInsets.all(4),
-                child: Row(
-                  children: [
-                    Text('Não', style: TextStyle(color: Colors.black)),
-                  ],
-                ),
-              ),
+            ),
+            TextButton(
+              child: Text('Sim'),
+              onPressed: () {
+                _signOut();
+              },
             ),
           ],
         );
@@ -118,7 +103,7 @@ class _ProfilePageState extends State<ProfilePage> {
             const CircleAvatar(
               radius: 60,
               backgroundImage: NetworkImage(
-                'https://example.com/user_profile_image.jpg', 
+                'https://example.com/user_profile_image.jpg',
               ),
             ),
             const SizedBox(height: 20),

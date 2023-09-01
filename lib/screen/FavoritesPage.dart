@@ -28,4 +28,8 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
       ),
     );
   }
+
+  void _navigate(BuildContext context) {
+    Navigator.of(context).pop();
+  }
 }
