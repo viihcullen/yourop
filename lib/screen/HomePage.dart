@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../utils/content.dart';
-import 'ReviewPage.dart';
+import 'ReviewPage/ReviewPage.dart';
 import 'SearchPage.dart';
 
 class HomePage extends StatelessWidget {
@@ -9,18 +9,24 @@ class HomePage extends StatelessWidget {
     Content(
       title: 'Game A',
       genre: 'Ação',
+      creator: 'jnjhgjhg',
+      nationality: "",
       image:
           'https://i.pinimg.com/564x/d5/5b/6c/d55b6c725a66bd51dde099652c95cda4.jpg',
     ),
     Content(
       title: 'Barbie',
       genre: 'Comédia',
+      creator: 'njhbhgfhg',
+      nationality: "",
       image:
           'https://i.pinimg.com/564x/e5/62/90/e56290a55446b17c9ad17cfa93a87300.jpg',
     ),
     Content(
       title: 'Euphoria',
       genre: 'Drama',
+      creator: 'nsdfhjgjuhy',
+      nationality: "",
       image:
           'https://i.pinimg.com/564x/ac/e4/ac/ace4ac67522fd1ddbe5a8770c88122bd.jpg',
     ),
