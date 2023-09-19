@@ -1,11 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:yourop/firebase_options.dart';
+import 'package:yourop/services/firebase_options.dart';
 import 'package:flutter/material.dart';
 import 'package:yourop/navigation_controller.dart';
 import 'package:yourop/screen/ValidarEmailPage.dart';
-import 'package:yourop/utils/validator.dart';
-import 'package:yourop/utils/fire_auth.dart';
+import 'package:yourop/services/validator.dart';
+import 'package:yourop/services/fire_auth.dart';
 import 'RegisterPage.dart';
 
 class LoginPage extends StatefulWidget {

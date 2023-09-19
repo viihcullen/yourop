@@ -1,6 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'Teste.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -94,6 +92,9 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Perfil '),
+      ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16.0),
         child: Column(
@@ -136,23 +137,9 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               child: Text('Sair da Conta'),
             ),
-            ElevatedButton(
-              onPressed: () {
-                _navigate(context);
-              },
-              style: ElevatedButton.styleFrom(
-                primary: Colors.green,
-              ),
-              child: Text('Perfil'),
-            ),
           ],
         ),
       ),
     );
-  }
-
-  void _navigate(BuildContext context) {
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => Teste()));
   }
 }

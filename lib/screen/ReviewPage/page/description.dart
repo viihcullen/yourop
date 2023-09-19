@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
+import '../../../models/content.dart';
 
-class Description extends StatefulWidget {
-  const Description({super.key});
+class Description extends StatelessWidget {
+  final Content content;
 
-  @override
-  State<Description> createState() => _DescriptionState();
-}
+  Description({required this.content, Key? key}) : super(key: key);
 
-class _DescriptionState extends State<Description> {
-  @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Text(
+          content.description,
+          style: TextStyle(fontSize: 16),
+        ),
+      ),
+    );
   }
 }

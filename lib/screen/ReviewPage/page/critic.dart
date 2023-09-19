@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
+import '../../../models/content.dart';
 
-class Critic extends StatefulWidget {
-  const Critic({super.key});
+class BetaReviewCritic extends StatelessWidget {
+  final Content content;
 
-  @override
-  State<Critic> createState() => _CriticState();
-}
+  BetaReviewCritic({required this.content, Key? key}) : super(key: key);
 
-class _CriticState extends State<Critic> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    final betaReview = content.betaReview;
+
+    return Scaffold(
+      body: Padding(
+        padding: EdgeInsets.all(16.0),
+        child: betaReview != null
+            ? Text(betaReview)
+            : Text('Nenhuma crítica beta disponível.'),
+      ),
+    );
   }
 }

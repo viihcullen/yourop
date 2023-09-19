@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:yourop/screen/ValidarEmailPage.dart';
-import 'package:yourop/utils/fire_auth.dart';
-import 'package:yourop/utils/validator.dart';
+import 'package:yourop/services/fire_auth.dart';
+import 'package:yourop/services/validator.dart';
 
 class RegisterPage extends StatefulWidget {
   @override

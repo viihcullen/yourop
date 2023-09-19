@@ -1,5 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:yourop/firebase_options.dart';
+import 'package:yourop/services/firebase_options.dart';
 
 class FireAuth {
   // For registering a new user
