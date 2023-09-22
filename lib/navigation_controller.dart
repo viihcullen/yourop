@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:yourop/screen/FavoritesPage.dart';
-import 'package:yourop/screen/FilterPage.dart';
-import 'package:yourop/screen/HomePage.dart';
-import 'package:yourop/screen/ProfilePage.dart';
+import 'package:yourop/screen/Favoritos/FavoritesPage.dart';
+import 'package:yourop/screen/Filter/FilterPage.dart';
+import 'package:yourop/screen/Home/HomePage.dart';
+import 'package:yourop/screen/Perfil/ProfilePage.dart';
 
 class NavigationController extends StatefulWidget {
   @override

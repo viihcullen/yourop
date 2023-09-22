@@ -3,10 +3,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:yourop/services/firebase_options.dart';
 import 'package:flutter/material.dart';
 import 'package:yourop/navigation_controller.dart';
-import 'package:yourop/screen/ValidarEmailPage.dart';
+import 'package:yourop/screen/Login/Cadastrar/ValidarEmail/ValidarEmailPage.dart';
 import 'package:yourop/services/validator.dart';
 import 'package:yourop/services/fire_auth.dart';
-import 'RegisterPage.dart';
+import '../RegisterPage.dart';
 
 class LoginPage extends StatefulWidget {
   @override

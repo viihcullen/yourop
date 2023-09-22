@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import '../models/content.dart';
-import 'ReviewPage/ReviewPage.dart';
-import 'SearchPage.dart';
+import '../../models/content.dart';
+import '../ReviewPage/ReviewPage.dart';
+import '../Pesquisa/SearchPage.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -73,7 +73,6 @@ class _HomePageState extends State<HomePage> {
       ],
     ),
   ];
-
   final FirebaseAuth _auth = FirebaseAuth.instance;
   User? _user;
 
@@ -114,18 +113,30 @@ class _HomePageState extends State<HomePage> {
             height: 150,
             alignment: Alignment.center,
             padding: EdgeInsets.all(20),
-            color: Colors.blue, // Cor de fundo da mensagem de boas-vindas
+            color: Colors.blue,
             child: Text(
-              'Bem-Vindo, ${_user?.displayName ?? 'Usuário'}', // Alterado para tratar _user como nulo
+              'Bem-Vindo, ${_user?.displayName ?? 'Usuário'}',
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
-                color: Colors.white, // Cor do texto da mensagem
+                color: Colors.black, // Alterado para preto
               ),
             ),
           ),
-          Expanded(
+          SizedBox(
+            height: 10,
+          ),
+          Text(
+            'Talvez você goste',
+            style: TextStyle(
+              fontSize: 17,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          Container(
+            height: 100,
             child: ListView.builder(
+              scrollDirection: Axis.horizontal,
               itemCount: availableContents.length,
               itemBuilder: (context, index) {
                 final content = availableContents[index];
@@ -134,9 +145,10 @@ class _HomePageState extends State<HomePage> {
                     _navigateToReviewPage(context, content);
                   },
                   child: Container(
+                    width: 100,
                     margin: EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(5),
                       boxShadow: [
                         BoxShadow(
                           color: Colors.black12,
@@ -145,35 +157,33 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ],
                     ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: Stack(
-                        children: [
-                          Image.network(
-                            content.imageUrl,
-                            width: double.infinity,
-                            height: double.infinity,
-                            fit: BoxFit.cover,
-                          ),
-                          Positioned(
-                            bottom: 0,
-                            left: 0,
-                            right: 0,
-                            child: Container(
-                              padding: EdgeInsets.all(8),
-                              color: Colors.black.withOpacity(0.7),
-                              child: Text(
-                                content.title,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Expanded(
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: Image.network(
+                              content.imageUrl,
+                              width: 150,
+                              height: 100,
+                              fit: BoxFit.cover,
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                        Container(
+                          padding: EdgeInsets.all(8),
+                          color: Colors.black.withOpacity(0.7),
+                          child: Text(
+                            content.title,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 );
@@ -184,4 +194,10 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+}
+
+void main() {
+  runApp(MaterialApp(
+    home: HomePage(),
+  ));
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'SearchPage.dart';
+import '../Pesquisa/SearchPage.dart';
 
 class FilterPage extends StatefulWidget {
   const FilterPage({Key? key}) : super(key: key);

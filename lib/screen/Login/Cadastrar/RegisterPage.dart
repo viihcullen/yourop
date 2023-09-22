@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:yourop/screen/ValidarEmailPage.dart';
+import 'package:yourop/screen/Login/Cadastrar/ValidarEmail/ValidarEmailPage.dart';
 import 'package:yourop/services/fire_auth.dart';
 import 'package:yourop/services/validator.dart';
 
