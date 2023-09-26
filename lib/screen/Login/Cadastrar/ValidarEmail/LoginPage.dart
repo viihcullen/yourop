@@ -59,7 +59,7 @@ class _LoginPageState extends State<LoginPage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Image.asset("logo.png"),
+                    Image.asset("assets/logo.png"),
                     Form(
                       key: _formKey,
                       child: Column(
