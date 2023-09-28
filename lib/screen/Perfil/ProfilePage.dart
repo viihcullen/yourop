@@ -103,9 +103,6 @@ class _ProfilePageState extends State<ProfilePage> {
           children: [
             const CircleAvatar(
               radius: 60,
-              backgroundImage: NetworkImage(
-                'https://example.com/user_profile_image.jpg',
-              ),
             ),
             const SizedBox(height: 20),
             _isEditing

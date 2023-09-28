@@ -21,9 +21,9 @@ class Teste extends StatelessWidget {
             SizedBox(height: 20),
             CircleAvatar(
               radius: 80,
-              backgroundImage: NetworkImage(
-                'https://example.com/user_profile_image.jpg', // URL da imagem do perfil
-              ),
+              //backgroundImage: NetworkImage(
+              //'https://example.com/user_profile_image.jpg', // URL da imagem do perfil
+              //),
             ),
             SizedBox(height: 20),
             Text(

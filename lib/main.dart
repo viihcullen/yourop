@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:yourop/screen/Login/Cadastrar/ValidarEmail/LoginPage.dart';
+import 'package:yourop/screen/Login/LoginPage.dart';
 
 void main() => runApp(YourOpApp());
 

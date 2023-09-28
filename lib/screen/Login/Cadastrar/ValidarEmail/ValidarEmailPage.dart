@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'LoginPage.dart';
+import '../../LoginPage.dart';
 import 'package:yourop/services/fire_auth.dart';
 
 class ValidarEmailPage extends StatefulWidget {
