@@ -39,6 +39,8 @@ dependencies:
   firebase_auth: ^4.7.3
   flutter_svg: ^2.0.7
   flutter_rating_bar: ^4.0.1
+  image_picker: ^1.0.4
+  animated_theme_switcher: ^2.0.8
 
 dev_dependencies:
   flutter_test:
