@@ -26,11 +26,13 @@ class _HomePageState extends State<HomePage> {
       description: 'Descrição do Game A',
       releaseYear: 2019,
       authorsOrProducers: 'Nome do Autor/Produtor',
-      betaReview: 'Revisão Beta do Game A',
+      metaReviews: [MetaReview(titulo: "Teste", valorAvaliacaoGeral: 4.0, comentarioAvaliativo: "Apenas um teste do comentario avaliativo")],
       comments: [
         Comment(username: 'Usuário1', text: 'Comentário 1'),
         Comment(username: 'Usuário2', text: 'Comentário 2'),
       ],
+      userRatings: [5.0, 3.0, 3.5, 3.3, 4.1, 1.0],
+      metaRatings: [2.0, 1.0, 1.5, 2.3, 3.1, 1.0]
     ),
     Content(
       title: 'Barbie',
@@ -39,6 +41,7 @@ class _HomePageState extends State<HomePage> {
       nationality: "",
       imageUrl:
           'https://i.pinimg.com/564x/e5/62/90/e56290a55446b17c9ad17cfa93a87300.jpg',
+          metaReviews: [],
       categories: [
         'Categoria1',
         'Categoria2'
@@ -46,7 +49,6 @@ class _HomePageState extends State<HomePage> {
       description: 'Descrição do Game A',
       releaseYear: 2019,
       authorsOrProducers: 'Nome do Autor/Produtor',
-      betaReview: 'Revisão Beta do Game A',
       comments: [
         Comment(username: 'Usuário1', text: 'Comentário 1'),
         Comment(username: 'Usuário2', text: 'Comentário 2'),
@@ -66,7 +68,7 @@ class _HomePageState extends State<HomePage> {
       description: 'Descrição do Game A',
       releaseYear: 2019,
       authorsOrProducers: 'Nome do Autor/Produtor',
-      betaReview: 'Revisão Beta do Game A',
+      metaReviews: [],
       comments: [
         Comment(username: 'Usuário1', text: 'Comentário 1'),
         Comment(username: 'Usuário2', text: 'Comentário 2'),

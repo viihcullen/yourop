@@ -27,7 +27,8 @@ class ReviewPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double averageRating = calculateAverageRating(content.ratings);
+    double averageRatingUser = calculateAverageRating(content.userRatings);
+    double averageRatingMeta = calculateAverageRating(content.metaRatings);
 
     return Scaffold(
       appBar: AppBar(
@@ -75,8 +76,25 @@ class ReviewPage extends StatelessWidget {
                           color: Colors.grey,
                         ),
                       ),
+                      Text("Critica de Usuarios"),
                       RatingBar.builder(
-                        initialRating: averageRating,
+                        initialRating: averageRatingUser,
+                        minRating: 1,
+                        direction: Axis.horizontal,
+                        allowHalfRating: true,
+                        itemCount: 5,
+                        itemSize: 24.0,
+                        itemBuilder: (context, _) => Icon(
+                          Icons.star,
+                          color: Colors.purple,
+                        ),
+                        onRatingUpdate: (rating) {
+                          print("Avaliação atualizada para $rating");
+                        },
+                      ),
+                      Text("Critica Meta"),
+                      RatingBar.builder(
+                        initialRating: averageRatingMeta,
                         minRating: 1,
                         direction: Axis.horizontal,
                         allowHalfRating: true,
@@ -105,7 +123,7 @@ class ReviewPage extends StatelessWidget {
                   unselectedLabelColor: Colors.black,
                   tabs: [
                     Tab(text: 'Descrição'),
-                    Tab(text: 'Beta Crítica'),
+                    Tab(text: 'Meta Crítica'),
                     Tab(text: 'Avaliações'),
                   ],
                 ),
@@ -116,7 +134,7 @@ class ReviewPage extends StatelessWidget {
                       Description(
                         content: content,
                       ),
-                      BetaReviewCritic(
+                      MetaReviewCritic(
                         content: content,
                       ),
                       CommentsPage(
