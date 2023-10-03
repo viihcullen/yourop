@@ -20,7 +20,7 @@ class _ProfileState extends State<Profile> {
       User? user = FirebaseAuth.instance.currentUser;
       if (user != null) {
         DatabaseReference userRef =
-            FirebaseDatabase.instance.reference().child('users/${user.uid}');
+            FirebaseDatabase.instance.ref().child('users/${user.uid}');
         await userRef.update({'name': newName});
       }
     } catch (error) {
@@ -34,17 +34,18 @@ class _ProfileState extends State<Profile> {
       User? user = FirebaseAuth.instance.currentUser;
       if (user != null) {
         DatabaseReference userRef =
-            FirebaseDatabase.instance.reference().child('users/${user.uid}');
+            FirebaseDatabase.instance.ref().child('users/${user.uid}');
         DatabaseEvent snapshot = await userRef.once();
-        Map<String, dynamic>? values = snapshot.value as Map<String, dynamic>?;
+        Map<String, dynamic>? values =
+            snapshot.snapshot.value as Map<String, dynamic>?;
 
         if (values != null) {
           // Use o mapa 'values' aqui
         } else {
           // Lida com o caso em que 'values' é nulo (não há dados válidos)
         }
-
-        return values['name'] ??
+        print(values);
+        return values?['name'] ??
             ''; // Retorna o nome do usuário, ou uma string vazia se não houver um nome
       }
       return ''; // Retorna uma string vazia se o usuário não estiver autenticado
