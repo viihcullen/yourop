@@ -35,9 +35,8 @@ class _ProfileState extends State<Profile> {
       if (user != null) {
         DatabaseReference userRef =
             FirebaseDatabase.instance.ref().child('users/${user.uid}');
-        DatabaseEvent snapshot = await userRef.once();
-        Map<String, dynamic>? values =
-            snapshot.snapshot.value as Map<String, dynamic>?;
+        DataSnapshot snapshot = await userRef.get();
+        Map<String, dynamic>? values = snapshot.value as Map<String, dynamic>?;
 
         if (values != null) {
           // Use o mapa 'values' aqui
