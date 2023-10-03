@@ -41,6 +41,8 @@ dependencies:
   flutter_rating_bar: ^4.0.1
   image_picker: ^1.0.4
   animated_theme_switcher: ^2.0.8
+  firebase_database: ^10.2.7
+  firebase_storage: ^11.2.8
 
 dev_dependencies:
   flutter_test:
