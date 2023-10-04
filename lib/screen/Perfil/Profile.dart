@@ -35,17 +35,10 @@ class _ProfileState extends State<Profile> {
       if (user != null) {
         DatabaseReference userRef =
             FirebaseDatabase.instance.ref().child('users/${user.uid}');
-        DataSnapshot snapshot = await userRef.get();
-        Map<String, dynamic>? values = snapshot.value as Map<String, dynamic>?;
+        DatabaseEvent dbEvent = await userRef.once();
+        Map<Object?, Object?> data = dbEvent.snapshot.value as Map<Object?, Object?>;
 
-        if (values != null) {
-          // Use o mapa 'values' aqui
-        } else {
-          // Lida com o caso em que 'values' é nulo (não há dados válidos)
-        }
-        print(values);
-        return values?['name'] ??
-            ''; // Retorna o nome do usuário, ou uma string vazia se não houver um nome
+        return data.entries.first.value.toString(); // Retorna o nome do usuário, ou uma string vazia se não houver um nome
       }
       return ''; // Retorna uma string vazia se o usuário não estiver autenticado
     } catch (error) {
@@ -163,9 +156,25 @@ class _ProfileState extends State<Profile> {
           ],
         );
       } else {
-        return CircleAvatar(
+        return Stack(
+          alignment: Alignment.bottomRight,
+          children: [
+            CircleAvatar(
           radius: 60,
           backgroundColor: Colors.grey[300],
+        ),
+            Positioned(
+              right: 8,
+              bottom: 8,
+              child: IconButton(
+                color: Colors.white,
+                icon: Icon(Icons.camera_alt),
+                onPressed: () {
+                  _showChoiceDialog(context);
+                },
+              ),
+            ),
+          ],
         );
       }
     } catch (error) {
