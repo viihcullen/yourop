@@ -36,9 +36,11 @@ class _ProfileState extends State<Profile> {
         DatabaseReference userRef =
             FirebaseDatabase.instance.ref().child('users/${user.uid}');
         DatabaseEvent dbEvent = await userRef.once();
-        Map<Object?, Object?> data = dbEvent.snapshot.value as Map<Object?, Object?>;
+        Map<Object?, Object?> data =
+            dbEvent.snapshot.value as Map<Object?, Object?>;
 
-        return data.entries.first.value.toString(); // Retorna o nome do usuário, ou uma string vazia se não houver um nome
+        return data.entries.first.value
+            .toString(); // Retorna o nome do usuário, ou uma string vazia se não houver um nome
       }
       return ''; // Retorna uma string vazia se o usuário não estiver autenticado
     } catch (error) {
@@ -104,9 +106,21 @@ class _ProfileState extends State<Profile> {
           );
         },
       );
+      await _uploadImageToFirebaseStorage();
     } catch (error) {
       print('Erro ao exibir o diálogo de escolha: $error');
     }
+  }
+
+  Future<String> _loadImageFromFirebaseStorage() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      Reference storageReference =
+          FirebaseStorage.instance.ref().child('profile_images/${user.uid}');
+      String downloadURL = await storageReference.getDownloadURL();
+      return downloadURL;
+    }
+    return '';
   }
 
   Future<void> _uploadImageToFirebaseStorage() async {
@@ -160,9 +174,9 @@ class _ProfileState extends State<Profile> {
           alignment: Alignment.bottomRight,
           children: [
             CircleAvatar(
-          radius: 60,
-          backgroundColor: Colors.grey[300],
-        ),
+              radius: 60,
+              backgroundColor: Colors.grey[300],
+            ),
             Positioned(
               right: 8,
               bottom: 8,
