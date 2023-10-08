@@ -1,8 +1,12 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:yourop/screen/Login/Cadastrar/ValidarEmail/ValidarEmailPage.dart';
 import 'package:yourop/services/fire_auth.dart';
 import 'package:yourop/services/validator.dart';
+import 'package:http/http.dart' as http;
 
 class RegisterPage extends StatefulWidget {
   @override
@@ -123,6 +127,23 @@ class _RegisterPageState extends State<RegisterPage> {
                                           });
 
                                           if (user != null) {
+                                            var response = await http.post(
+                                                Uri.https("youropapi-6dd8933b8ff5.herokuapp.com",
+                                                    "api/v1/usuario"),
+                                                headers: <String, String>{
+                                                  'Content-Type':
+                                                      'application/json; charset=UTF-8',
+                                                },
+                                                body: json.encode({
+                                                  'nomeUsuario':
+                                                      _nameTextController.text,
+                                                  'emailUsuario':
+                                                      _emailTextController.text,
+                                                  'userUIDAuth': user.uid,
+                                                  'nivelPermissao': 1
+                                                }));
+                                            print(response.reasonPhrase);
+                                            print(response.body);
                                             Navigator.of(context)
                                                 .pushAndRemoveUntil(
                                               MaterialPageRoute(
