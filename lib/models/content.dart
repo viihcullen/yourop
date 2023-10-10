@@ -8,9 +8,10 @@ class Content {
   final List<String> categories;
   final List<String> genre;
   final String description;
-  final String betaReview;
   final List<Comment> comments;
-  final List<double> ratings;
+  final List<double> userRatings;
+  final List<double> metaRatings;
+  final List<MetaReview> metaReviews;
 
   Content({
     required this.title,
@@ -22,9 +23,21 @@ class Content {
     required this.categories,
     required this.genre,
     required this.description,
-    required this.betaReview,
     required this.comments,
-    this.ratings = const [],
+    this.userRatings = const [],
+    this.metaRatings = const [],
+    this.metaReviews = const []
+  });
+}
+
+class MetaReview{
+  final String titulo;
+  final double valorAvaliacaoGeral;
+  final String comentarioAvaliativo;
+  MetaReview({
+    required this.titulo,
+    required this.valorAvaliacaoGeral,
+    required this.comentarioAvaliativo
   });
 }
 
