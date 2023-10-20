@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:yourop/screen/Favoritos/FavoritesPage.dart';
+import 'package:yourop/screen/Favoritos/favoritos.dart';
 import 'package:yourop/screen/Filter/FilterPage.dart';
 import 'package:yourop/screen/Home/HomePage.dart';
-import 'package:yourop/screen/Perfil/ProfilePage.dart';
+import 'package:yourop/screen/Perfil/Profile.dart';
 
 class NavigationController extends StatefulWidget {
   @override
@@ -14,9 +14,9 @@ class _NavigationControllerState extends State<NavigationController> {
 
   final List<Widget> _pages = [
     HomePage(),
-    FavoritesScreen(),
+    FavoritosPage(),
     FilterPage(),
-    ProfilePage(),
+    Profile(),
   ];
 
   void _onItemTapped(int index) {

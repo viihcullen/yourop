@@ -49,6 +49,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '554584170393',
     projectId: 'db-yourop',
     authDomain: 'db-yourop.firebaseapp.com',
+    databaseURL: "https://db-yourop-default-rtdb.firebaseio.com",
     storageBucket: 'db-yourop.appspot.com',
   );
 
@@ -56,6 +57,7 @@ class DefaultFirebaseOptions {
     apiKey: 'AIzaSyCP6xGU70w8S98jQ3KF_ljQ9zMM_xeoB2M',
     appId: '1:554584170393:android:998e70ec7089fb6e61bd08',
     messagingSenderId: '554584170393',
+    databaseURL: "https://db-yourop-default-rtdb.firebaseio.com",
     projectId: 'db-yourop',
     storageBucket: 'db-yourop.appspot.com',
   );
@@ -66,7 +68,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '554584170393',
     projectId: 'db-yourop',
     storageBucket: 'db-yourop.appspot.com',
-    iosClientId: '554584170393-slfordjbff6opgrbdjon0g1glhvr8ub3.apps.googleusercontent.com',
+    iosClientId:
+        '554584170393-slfordjbff6opgrbdjon0g1glhvr8ub3.apps.googleusercontent.com',
     iosBundleId: 'com.example.yourop',
   );
 
@@ -76,7 +79,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '554584170393',
     projectId: 'db-yourop',
     storageBucket: 'db-yourop.appspot.com',
-    iosClientId: '554584170393-jqmepvmq03d54voq2a097n9ut8tunqaa.apps.googleusercontent.com',
+    iosClientId:
+        '554584170393-jqmepvmq03d54voq2a097n9ut8tunqaa.apps.googleusercontent.com',
     iosBundleId: 'com.example.yourop.RunnerTests',
   );
 }
