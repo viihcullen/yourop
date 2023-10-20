@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import '../../models/content.dart';
@@ -6,33 +8,23 @@ import 'page/critic.dart';
 import 'page/commentspage.dart';
 
 class ReviewPage extends StatelessWidget {
-  final Content content;
-
-  ReviewPage({required this.content});
+  final Map<String, dynamic> obra;
+  ReviewPage({required this.obra});
 
   // Função para calcular a média das avaliações
-  double calculateAverageRating(List<double> ratings) {
-    if (ratings.isEmpty) {
-      return 0.0; // Retorna 0 se não houver avaliações
-    }
-
-    double totalRating = 0.0;
-
-    for (var rating in ratings) {
-      totalRating += rating;
-    }
-
-    return totalRating / ratings.length;
+  double calculateAverageRating(double ratings) {
+    
+    return ratings;
   }
 
   @override
   Widget build(BuildContext context) {
-    double averageRatingUser = calculateAverageRating(content.userRatings);
-    double averageRatingMeta = calculateAverageRating(content.metaRatings);
+    double averageRatingUser = calculateAverageRating(2.0);
+    double averageRatingMeta = calculateAverageRating(4.0);
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(content.title),
+        title: Text(obra['tituloObra']!),
         actions: [
           IconButton(
             icon: Icon(Icons.search_sharp),
@@ -49,7 +41,7 @@ class ReviewPage extends StatelessWidget {
             child: Row(
               children: [
                 CircleAvatar(
-                  backgroundImage: NetworkImage(content.imageUrl),
+                  backgroundImage: NetworkImage(obra['imageURL']!),
                   radius: 50,
                 ),
                 SizedBox(width: 20),
@@ -58,19 +50,13 @@ class ReviewPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Nacionalidade: ${content.nationality}',
+                        obra['escritor']!=null?"Escritor: ${obra['escritor']['nomeEscritor']}":"Diretor: ${obra['diretor']['nomeDiretor']}",
                         style: TextStyle(
                           fontSize: 16,
                         ),
                       ),
                       Text(
-                        'Criadores: ${content.creator}',
-                        style: TextStyle(
-                          fontSize: 16,
-                        ),
-                      ),
-                      Text(
-                        'Gênero: ${content.genre}',
+                        'Gênero: ${obra['obraCategoria'].map((obracat)=>obracat['categoria']['nomeCategoria']).join(', ')}',
                         style: TextStyle(
                           fontSize: 16,
                           color: Colors.grey,
@@ -132,13 +118,13 @@ class ReviewPage extends StatelessWidget {
                   child: TabBarView(
                     children: [
                       Description(
-                        content: content,
+                        content: obra,
                       ),
                       MetaReviewCritic(
-                        content: content,
+                        content: obra,
                       ),
                       CommentsPage(
-                        content: content,
+                        content: obra,
                       ),
                     ],
                   ),

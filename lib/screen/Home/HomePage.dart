@@ -1,5 +1,11 @@
+import 'dart:convert';
+
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:http/http.dart';
+import 'package:yourop/models/Obra.dart';
+import 'package:yourop/services/api_consumer.dart';
 
 import '../../models/content.dart';
 import '../ReviewPage/ReviewPage.dart';
@@ -11,70 +17,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final List<Content> availableContents = [
-    Content(
-      title: 'Game A',
-      genre: ['Ação'],
-      creator: 'jnjhgjhg',
-      nationality: "",
-      imageUrl:
-          'https://i.pinimg.com/564x/d5/5b/6c/d55b6c725a66bd51dde099652c95cda4.jpg',
-      categories: [
-        'Categoria1',
-        'Categoria2'
-      ], // Adicione as categorias desejadas aqui
-      description: 'Descrição do Game A',
-      releaseYear: 2019,
-      authorsOrProducers: 'Nome do Autor/Produtor',
-      metaReviews: [MetaReview(titulo: "Teste", valorAvaliacaoGeral: 4.0, comentarioAvaliativo: "Apenas um teste do comentario avaliativo")],
-      comments: [
-        Comment(username: 'Usuário1', text: 'Comentário 1'),
-        Comment(username: 'Usuário2', text: 'Comentário 2'),
-      ],
-      userRatings: [5.0, 3.0, 3.5, 3.3, 4.1, 1.0],
-      metaRatings: [2.0, 1.0, 1.5, 2.3, 3.1, 1.0]
-    ),
-    Content(
-      title: 'Barbie',
-      genre: ['Comédia'],
-      creator: 'njhbhgfhg',
-      nationality: "",
-      imageUrl:
-          'https://i.pinimg.com/564x/e5/62/90/e56290a55446b17c9ad17cfa93a87300.jpg',
-          metaReviews: [],
-      categories: [
-        'Categoria1',
-        'Categoria2'
-      ], // Adicione as categorias desejadas aqui
-      description: 'Descrição do Game A',
-      releaseYear: 2019,
-      authorsOrProducers: 'Nome do Autor/Produtor',
-      comments: [
-        Comment(username: 'Usuário1', text: 'Comentário 1'),
-        Comment(username: 'Usuário2', text: 'Comentário 2'),
-      ],
-    ),
-    Content(
-      title: 'Euphoria',
-      genre: ['Drama'],
-      creator: 'nsdfhjgjuhy',
-      nationality: "",
-      imageUrl:
-          'https://i.pinimg.com/564x/ac/e4/ac/ace4ac67522fd1ddbe5a8770c88122bd.jpg',
-      categories: [
-        'Categoria1',
-        'Categoria2'
-      ], // Adicione as categorias desejadas aqui
-      description: 'Descrição do Game A',
-      releaseYear: 2019,
-      authorsOrProducers: 'Nome do Autor/Produtor',
-      metaReviews: [],
-      comments: [
-        Comment(username: 'Usuário1', text: 'Comentário 1'),
-        Comment(username: 'Usuário2', text: 'Comentário 2'),
-      ],
-    ),
-  ];
+  List<Content> availableContents = [];
+  List<Map<String, dynamic>> obras = [];
   final FirebaseAuth _auth = FirebaseAuth.instance;
   User? _user;
 
@@ -82,6 +26,14 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     _getUserInfo();
+    getObra();
+  }
+  void getObra() async {
+    Response obrasRes = await API.getObras();
+    List<dynamic> ob = jsonDecode(obrasRes.body);
+    setState(() {
+    obras = ob.cast<Map<String, dynamic>>();
+    });
   }
 
   void _getUserInfo() async {
@@ -98,10 +50,10 @@ class _HomePageState extends State<HomePage> {
         .push(MaterialPageRoute(builder: (context) => SearchPage()));
   }
 
-  void _navigateToReviewPage(BuildContext context, Content content) {
+  void _navigateToReviewPage(BuildContext context, Map<String, dynamic> content) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => ReviewPage(content: content)),
+      MaterialPageRoute(builder: (context) => ReviewPage(obra: content)),
     );
   }
 
@@ -138,6 +90,60 @@ class _HomePageState extends State<HomePage> {
           Container(
             height: 100,
             child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: obras.length,
+              itemBuilder: (context, index) {
+                final content = obras[index];
+                return GestureDetector(
+                  onTap: () {
+                    _navigateToReviewPage(context, content);
+                  },
+                  child: Container(
+                    width: 100,
+                    margin: EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black12,
+                          offset: Offset(0, 2),
+                          blurRadius: 6,
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Expanded(
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
+                            child: content['imageURL']!=null?Image.network(
+                              content['imageURL'],
+                              width: 150,
+                              height: 100,
+                              fit: BoxFit.cover,
+                            ): null,
+                          ),
+                        ),
+                        Container(
+                          padding: EdgeInsets.all(8),
+                          color: Colors.black.withOpacity(0.7),
+                          child: Text(
+                            content['tituloObra'],
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            ),
+            /*ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: availableContents.length,
               itemBuilder: (context, index) {
@@ -190,7 +196,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                 );
               },
-            ),
+            ),*/
           ),
         ],
       ),

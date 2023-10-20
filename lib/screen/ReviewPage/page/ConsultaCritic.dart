@@ -9,7 +9,8 @@ class ConsultaCritic extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text(metaR.titulo)
+        Text(metaR.titulo),
+        Text(metaR.comentarioAvaliativo)
       ],
     );
   }
