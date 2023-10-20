@@ -1,6 +1,10 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:yourop/screen/Login/Cadastrar/ValidarEmail/ValidarEmailPage.dart';
+import 'package:yourop/services/api_consumer.dart';
 import 'package:yourop/services/fire_auth.dart';
 import 'package:yourop/services/validator.dart';
 
@@ -123,15 +127,26 @@ class _RegisterPageState extends State<RegisterPage> {
                                           });
 
                                           if (user != null) {
-                                            Navigator.of(context)
-                                                .pushAndRemoveUntil(
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    ValidarEmailPage(
-                                                        user: user),
-                                              ),
-                                              ModalRoute.withName('/'),
-                                            );
+                                            var response =
+                                                await API.registerUser({
+                                              'nomeUsuario':
+                                                  _nameTextController.text,
+                                              'emailUsuario':
+                                                  _emailTextController.text,
+                                              'userUIDAuth': user.uid,
+                                              'nivelPermissao': 1
+                                            });
+                                            if (response.statusCode == 200) {
+                                              Navigator.of(context)
+                                                  .pushAndRemoveUntil(
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      ValidarEmailPage(
+                                                          user: user),
+                                                ),
+                                                ModalRoute.withName('/'),
+                                              );
+                                            }
                                           }
                                         }
                                       },

@@ -27,7 +27,6 @@ class _LoginPageState extends State<LoginPage> {
   Future<FirebaseApp> _initializeFirebase() async {
     FirebaseApp firebaseApp = await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform);
-
     User? user = FirebaseAuth.instance.currentUser;
 
     if (user != null) {

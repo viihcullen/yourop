@@ -1,21 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:yourop/screen/ReviewPage/page/ConsultaCritic.dart';
 import '../../../models/content.dart';
 
-class BetaReviewCritic extends StatelessWidget {
+class MetaReviewCritic extends StatelessWidget {
   final Content content;
 
-  BetaReviewCritic({required this.content, Key? key}) : super(key: key);
+  MetaReviewCritic({required this.content, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final betaReview = content.betaReview;
+    final metaReviews = content.metaReviews;
 
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.all(16.0),
-        child: betaReview != null
-            ? Text(betaReview)
-            : Text('Nenhuma crítica beta disponível.'),
+        child: Column(
+          children: metaReviews.map((metaR){
+            return Card(child: ListTile(title: Text(metaR.titulo), trailing: Wrap(crossAxisAlignment: WrapCrossAlignment.center ,children: [Text(metaR.valorAvaliacaoGeral.toString()), const Icon(Icons.star)],), onTap: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context){
+                return ConsultaCritic(metaR: metaR,);
+              }));
+            }),);
+          }).toList(),
+        ),
       ),
     );
   }

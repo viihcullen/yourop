@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../models/content.dart';
 
 class Description extends StatelessWidget {
-  final Content content;
+  final Map<String, dynamic> content;
 
   Description({required this.content, Key? key}) : super(key: key);
 
@@ -11,7 +11,7 @@ class Description extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Text(
-          content.description,
+          content['resumoObra'],
           style: TextStyle(fontSize: 16),
         ),
       ),
