@@ -3,13 +3,13 @@ import 'package:yourop/screen/ReviewPage/page/ConsultaCritic.dart';
 import '../../../models/content.dart';
 
 class MetaReviewCritic extends StatelessWidget {
-  final Content content;
+  final Map<String, dynamic> content;
 
   MetaReviewCritic({required this.content, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final metaReviews = content.metaReviews;
+    final metaReviews = content['avaliacaoCritica'];
 
     return Scaffold(
       body: Padding(
