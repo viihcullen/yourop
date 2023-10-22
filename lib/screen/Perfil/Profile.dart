@@ -253,7 +253,7 @@ class _ProfileState extends State<Profile> {
         children: <Widget>[
           Container(
             width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height / 2,
+            height: MediaQuery.of(context).size.height / 3,
             decoration: BoxDecoration(
               color: Colors.deepPurple,
               borderRadius: BorderRadius.only(
@@ -275,7 +275,9 @@ class _ProfileState extends State<Profile> {
                   ],
                 ),
                 SizedBox(height: 22),
-                Row(children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
                   FutureBuilder<String>(
                     future: getUserName(),
                     builder:
@@ -287,16 +289,13 @@ class _ProfileState extends State<Profile> {
                       } else {
                         return Text(
                           snapshot.data ?? '',
-                          style: TextStyle(color: Colors.white),
+                          textAlign: TextAlign.end,
+                          style: TextStyle(color: Colors.white, fontSize: 25),
                         );
                       }
                     },
                   ),
-                  SizedBox(width: 22),
-                  IconButton(
-                    onPressed: () {},
-                    icon: Icon(Icons.edit_outlined),
-                  )
+                  
                 ]),
               ],
             ),
