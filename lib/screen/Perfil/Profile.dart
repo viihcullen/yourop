@@ -4,6 +4,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:yourop/screen/Perfil/EditProfilePage.dart';
 
 class Profile extends StatefulWidget {
   @override
@@ -309,17 +310,29 @@ class _ProfileState extends State<Profile> {
                   ListTile(
                     leading: Icon(Icons.mode_edit_rounded, color: Colors.black),
                     title: Text('Editar perfil'),
+                    onTap:(){
+                      Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => EditProfilePage(),
+                  ),
+                );
+                    }
                   ),
                   ListTile(
                     leading:
                         Icon(Icons.sync_problem_rounded, color: Colors.black),
                     title: Text('Relatar problemas no app'),
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.pushNamed(context, '/report_problem');
+                    },
                   ),
                   ListTile(
                     leading: Icon(Icons.post_add_rounded, color: Colors.black),
                     title: Text('Solicitar conteúdo'),
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.pushNamed(context, '/request_content');
+                    },
                   ),
                   ListTile(
                     leading:
@@ -335,6 +348,138 @@ class _ProfileState extends State<Profile> {
           ),
           SizedBox(height: 20),
         ],
+      ),
+    );
+  }
+}
+
+class ReportProblemPage extends StatefulWidget {
+  const ReportProblemPage({Key? key}) : super(key: key);
+
+  @override
+  _ReportProblemPageState createState() => _ReportProblemPageState();
+}
+
+class _ReportProblemPageState extends State<ReportProblemPage> {
+  final _formKey = GlobalKey<FormState>();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Relatar problema'),
+      ),
+      body: Form(
+        key: _formKey,
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              TextFormField(
+                decoration: InputDecoration(
+                  labelText: 'Título',
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'O título é obrigatório.';
+                  }
+                  return null;
+                },
+              ),
+              TextFormField(
+                decoration: InputDecoration(
+                  labelText: 'Descrição',
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'A descrição é obrigatória.';
+                  }
+                  return null;
+                },
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    // Enviar relatório para o servidor
+                  }
+                },
+                child: Text('Enviar'),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+
+class RequestContentPage extends StatefulWidget {
+  const RequestContentPage({Key? key}) : super(key: key);
+
+  @override
+  _RequestContentPageState createState() => _RequestContentPageState();
+}
+
+class _RequestContentPageState extends State<RequestContentPage> {
+  final _formKey = GlobalKey<FormState>();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Solicitar conteúdo'),
+      ),
+      body: Form(
+        key: _formKey,
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              TextFormField(
+                decoration: InputDecoration(
+                  labelText: 'Título',
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'O título é obrigatório.';
+                  }
+                  return null;
+                },
+              ),
+              TextFormField(
+                decoration: InputDecoration(
+                  labelText: 'Tipo de conteúdo',
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'O tipo de conteúdo é obrigatório.';
+                  }
+                  return null;
+                },
+              ),
+              TextFormField(
+                decoration: InputDecoration(
+                  labelText: 'Descrição',
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'A descrição é obrigatória.';
+                  }
+                  return null;
+                },
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    // Enviar solicitação para o servidor
+                  }
+                },
+                child: Text('Enviar'),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
