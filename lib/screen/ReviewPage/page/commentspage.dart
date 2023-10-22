@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../models/content.dart';
 
 class CommentsPage extends StatefulWidget {
-  final Content content;
+  final Map<String, dynamic> content;
 
   CommentsPage({required this.content});
 
@@ -20,15 +20,15 @@ class _CommentsPageState extends State<CommentsPage> {
         children: [
           Expanded(
             child: ListView.builder(
-              itemCount: widget.content.comments.length,
+              itemCount: widget.content['avaliacaoUsuario'].length,
               itemBuilder: (context, index) {
-                final comment = widget.content.comments[index];
+                final comment = widget.content['avaliacaoUsuario'][index];
                 return ListTile(
                   leading: CircleAvatar(
                       // Exiba a foto do usuário aqui (comment.userPhotoUrl)
                       ),
-                  title: Text(comment.username),
-                  subtitle: Text(comment.text),
+                  title: Text(comment['usuario']['nomeUsuario']),
+                  subtitle: Text(comment['comentarioAvaliacao']),
                 );
               },
             ),
@@ -54,14 +54,14 @@ class _CommentsPageState extends State<CommentsPage> {
                 IconButton(
                   icon: Icon(Icons.send),
                   onPressed: () {
-                    // Adicione seu código de envio de comentários aqui
+                   /* // Adicione seu código de envio de comentários aqui
                     final newComment = Comment(
                       username: 'User',
                       text: _commentController.text,
                     );
                     widget.content.comments.add(newComment);
                     _commentController.clear();
-                    // Você também pode chamar setState() para atualizar a lista de comentários
+                    // Você também pode chamar setState() para atualizar a lista de comentários */
                   },
                 ),
               ],
