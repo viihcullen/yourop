@@ -28,7 +28,6 @@ class _LoginPageState extends State<LoginPage> {
     FirebaseApp firebaseApp = await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform);
     User? user = FirebaseAuth.instance.currentUser;
-
     if (user != null) {
       Navigator.of(context).push(
         MaterialPageRoute(

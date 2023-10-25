@@ -23,4 +23,24 @@ class API {
     final ref = FirebaseStorage.instance.refFromURL("gs://db-yourop.appspot.com/obra_images/$name.jpg");
     return await ref.getDownloadURL();
   }
+
+  static Future<http.Response> cadastrarComentario(Object body) async{
+    var response = await http.post(
+      Uri.https("youropapi-6dd8933b8ff5.herokuapp.com", "api/v1/avaliacaousuario"), 
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8'
+      },
+      body: json.encode(body));
+      return response;
+  }
+
+  static Future<http.Response> getObra(String id) async {
+    var response = await http.get(Uri.https("youropapi-6dd8933b8ff5.herokuapp.com", "api/v1/obra/$id"));
+    return response;
+  }
+
+  static Future<http.Response> getUsuario(String uid) async{
+    var response = await http.get(Uri.https("youropapi-6dd8933b8ff5.herokuapp.com", "api/v1/usuario/$uid"));
+    return response;
+  }
 }
