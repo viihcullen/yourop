@@ -43,4 +43,17 @@ class API {
     var response = await http.get(Uri.https("youropapi-6dd8933b8ff5.herokuapp.com", "api/v1/usuario/$uid"));
     return response;
   }
+
+  static Future<http.Response> setNomeUsuario(String uid, String newName) async{
+    var response = await http.put(
+      Uri.https("youropapi-6dd8933b8ff5.herokuapp.com", "api/v1/usuario"), 
+    headers: <String, String>{
+      'Content-Type': "application/json; charset=UTF-8"
+    },
+    body: json.encode({
+      'uidUsuario': uid,
+      'nomeUsuario': newName
+    }));
+    return response;
+  }
 }
