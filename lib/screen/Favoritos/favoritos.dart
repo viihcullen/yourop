@@ -1,4 +1,9 @@
+import 'dart:convert';
+
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:yourop/services/api_consumer.dart';
 
 class FavoritosPage extends StatefulWidget {
   @override
@@ -6,69 +11,29 @@ class FavoritosPage extends StatefulWidget {
 }
 
 class _FavoritosPageState extends State<FavoritosPage> {
-  final List<ConteudoFavorito> favoritos = [
-    ConteudoFavorito(
-      title: 'Game A',
-      imagemUrl:
-          'https://i.pinimg.com/564x/d5/5b/6c/d55b6c725a66bd51dde099652c95cda4.jpg',
-    ),
-    ConteudoFavorito(
-      title: 'Game A',
-      imagemUrl:
-          'https://i.pinimg.com/564x/d5/5b/6c/d55b6c725a66bd51dde099652c95cda4.jpg',
-    ),
-    ConteudoFavorito(
-      title: 'Game A',
-      imagemUrl:
-          'https://i.pinimg.com/564x/d5/5b/6c/d55b6c725a66bd51dde099652c95cda4.jpg',
-    ),
-    ConteudoFavorito(
-      title: 'Game A',
-      imagemUrl:
-          'https://i.pinimg.com/564x/d5/5b/6c/d55b6c725a66bd51dde099652c95cda4.jpg',
-    ),
-    ConteudoFavorito(
-      title: 'Game A',
-      imagemUrl:
-          'https://i.pinimg.com/564x/d5/5b/6c/d55b6c725a66bd51dde099652c95cda4.jpg',
-    ),
-    ConteudoFavorito(
-      title: 'Game A',
-      imagemUrl:
-          'https://i.pinimg.com/564x/d5/5b/6c/d55b6c725a66bd51dde099652c95cda4.jpg',
-    ),
-    ConteudoFavorito(
-      title: 'Game A',
-      imagemUrl:
-          'https://i.pinimg.com/564x/d5/5b/6c/d55b6c725a66bd51dde099652c95cda4.jpg',
-    ),
-    ConteudoFavorito(
-      title: 'Game A',
-      imagemUrl:
-          'https://i.pinimg.com/564x/d5/5b/6c/d55b6c725a66bd51dde099652c95cda4.jpg',
-    ),
-    ConteudoFavorito(
-      title: 'Game A',
-      imagemUrl:
-          'https://i.pinimg.com/564x/d5/5b/6c/d55b6c725a66bd51dde099652c95cda4.jpg',
-    ),
-    ConteudoFavorito(
-      title: 'Game A',
-      imagemUrl:
-          'https://i.pinimg.com/564x/d5/5b/6c/d55b6c725a66bd51dde099652c95cda4.jpg',
-    ),
-    ConteudoFavorito(
-      title: 'Game A',
-      imagemUrl:
-          'https://i.pinimg.com/564x/d5/5b/6c/d55b6c725a66bd51dde099652c95cda4.jpg',
-    ),
-    ConteudoFavorito(
-      title: 'Game A',
-      imagemUrl:
-          'https://i.pinimg.com/564x/d5/5b/6c/d55b6c725a66bd51dde099652c95cda4.jpg',
-    ),
-  ];
+  List<Map<String, dynamic>> favoritos = [];
 
+  getFavoritos() async{
+    User? user = FirebaseAuth.instance.currentUser;
+    if(user != null){
+      var favs = await (FirebaseDatabase.instance.ref().child("/users/${user.uid}/favoritos")).get();
+      print(favs.value);
+      List<Map<String, dynamic>> favorits = [];
+      for (var i = 0; i < (favs.value as List<Object?>).length; i++) {
+        var v = await API.getObra((favs.value as List<Object?>)[i].toString());
+        favorits.add(jsonDecode(v.body));
+      }
+      setState(() {
+        favoritos = favorits;
+      });
+    }
+    
+  }
+  @override
+  void initState(){
+    super.initState();
+    getFavoritos();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -127,7 +92,7 @@ class ConteudoFavorito {
 }
 
 class FavoritoCard extends StatelessWidget {
-  final ConteudoFavorito conteudo;
+  final Map<String, dynamic> conteudo;
 
   FavoritoCard({
     required this.conteudo,
@@ -144,7 +109,7 @@ class FavoritoCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Image.network(
-              conteudo.imagemUrl,
+              conteudo['imageURL'],
               height: 100.0,
               width: double.infinity,
               fit: BoxFit.cover,
@@ -152,7 +117,7 @@ class FavoritoCard extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                conteudo.title,
+                conteudo['tituloObra'],
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                 ),
