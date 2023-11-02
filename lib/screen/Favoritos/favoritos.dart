@@ -73,14 +73,27 @@ class _FavoritosPageState extends State<FavoritosPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Favoritos'),
+        centerTitle: true,
+        title: Text(
+          'Minha Biblioteca',
+          style: TextStyle(
+              color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+        backgroundColor: Colors.white,
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: Icon(Icons.search_rounded),
+            color: Colors.black,
+            iconSize: 25,
+          )
+        ],
       ),
       body: Center(
         child: Container(
           padding: EdgeInsets.only(top: 30),
           child: Column(
             children: [
-              Text('aldfkjhwejhh'),
               Expanded(
                 child: SingleChildScrollView(
                   scrollDirection: Axis.vertical,
