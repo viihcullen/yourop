@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:yourop/screen/Favoritos/favoritos.dart';
 import 'package:yourop/screen/Filter/FilterPage.dart';
 import 'package:yourop/screen/Home/HomePage.dart';
-import 'package:yourop/screen/Home/hometeste.dart';
 import 'package:yourop/screen/Perfil/Profile.dart';
 
 class NavigationController extends StatefulWidget {
@@ -14,7 +13,7 @@ class _NavigationControllerState extends State<NavigationController> {
   int _selectedIndex = 0;
 
   final List<Widget> _pages = [
-    HomePageTeste(),
+    HomePage(),
     FavoritosPage(),
     FilterPage(),
     Profile(),
