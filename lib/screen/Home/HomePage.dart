@@ -1,12 +1,12 @@
 import 'dart:convert';
-
+import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart';
 import 'package:yourop/models/Obra.dart';
 import 'package:yourop/services/api_consumer.dart';
-
+import 'package:google_fonts/google_fonts.dart';
 import '../../models/content.dart';
 import '../ReviewPage/ReviewPage.dart';
 import '../Pesquisa/SearchPage.dart';
@@ -28,21 +28,22 @@ class _HomePageState extends State<HomePage> {
     _getUserInfo();
     getObra();
   }
+
   void getObra() async {
     Response obrasRes = await API.getObras();
     List<dynamic> ob = jsonDecode(obrasRes.body);
+    User? user = FirebaseAuth.instance.currentUser;
+    if(user != null){
+      var favs = await (FirebaseDatabase.instance.ref().child("/users/${user.uid}/favoritos")).get();
+      List<dynamic> obsFavs = ob.map((e){
+      e['favorito'] = (favs.value as List<Object?>).contains(e['idObra']);
+      return e;
+    }).toList();
     setState(() {
-    obras = ob.cast<Map<String, dynamic>>();
+      obras = ob.cast<Map<String, dynamic>>();
     });
-  }
-
-  void _getUserInfo() async {
-    User? user = _auth.currentUser;
-    if (user != null) {
-      setState(() {
-        _user = user;
-      });
     }
+    
   }
 
   void _navigateToSearchPage(BuildContext context) {
@@ -50,7 +51,8 @@ class _HomePageState extends State<HomePage> {
         .push(MaterialPageRoute(builder: (context) => SearchPage()));
   }
 
-  void _navigateToReviewPage(BuildContext context, Map<String, dynamic> content) {
+  void _navigateToReviewPage(
+      BuildContext context, Map<String, dynamic> content) {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => ReviewPage(obra: content)),
@@ -60,35 +62,40 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // Alterar a cor do appbar
+      appBar: AppBar(
+        title: Text('YourOP'),
+        shadowColor: Colors.transparent,
+        backgroundColor: Colors.white,
+      ),
+      // Adicionar uma barra de pesquisa
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          // Adicionar uma seção de bem-vindo
           Container(
-            height: 150,
+            width: 100,
             alignment: Alignment.center,
-            padding: EdgeInsets.all(20),
-            color: Colors.blue,
+            padding: EdgeInsets.all(30),
             child: Text(
-              'Bem-Vindo, ${_user?.displayName ?? 'Usuário'}',
-              style: TextStyle(
+              'Bem-Vindo, \n ${_user?.displayName ?? 'Usuário'} !!!',
+              style: GoogleFonts.sacramento(
+                textStyle: TextStyle(
+                  fontSize: 40,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+              ),
+              textAlign: TextAlign.center,
+              /*TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
+                fontFamily: 'Roboto',
                 color: Colors.black, // Alterado para preto
-              ),
+              ),*/
             ),
           ),
-          SizedBox(
-            height: 10,
-          ),
-          Text(
-            'Talvez você goste',
-            style: TextStyle(
-              fontSize: 17,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          Container(
-            height: 100,
+          Expanded(
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: obras.length,
@@ -96,116 +103,80 @@ class _HomePageState extends State<HomePage> {
                 final content = obras[index];
                 return GestureDetector(
                   onTap: () {
+                    setState(() {
+                      content['favorito'] = !content['favorito'];
+                    });
                     _navigateToReviewPage(context, content);
                   },
                   child: Container(
-                    width: 100,
                     margin: EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black12,
-                          offset: Offset(0, 2),
-                          blurRadius: 6,
-                        ),
-                      ],
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Expanded(
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
-                            child: content['imageURL']!=null?Image.network(
-                              content['imageURL'],
-                              width: 150,
-                              height: 100,
-                              fit: BoxFit.cover,
-                            ): null,
-                          ),
-                        ),
-                        Container(
-                          padding: EdgeInsets.all(8),
-                          color: Colors.black.withOpacity(0.7),
-                          child: Text(
-                            content['tituloObra'],
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                    width: 100,
+                    child: _buildContentCard(content),
                   ),
                 );
               },
             ),
-            /*ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: availableContents.length,
-              itemBuilder: (context, index) {
-                final content = availableContents[index];
-                return GestureDetector(
-                  onTap: () {
-                    _navigateToReviewPage(context, content);
-                  },
-                  child: Container(
-                    width: 100,
-                    margin: EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black12,
-                          offset: Offset(0, 2),
-                          blurRadius: 6,
-                        ),
-                      ],
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Expanded(
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(10),
-                            child: Image.network(
-                              content.imageUrl,
-                              width: 150,
-                              height: 100,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                        Container(
-                          padding: EdgeInsets.all(8),
-                          color: Colors.black.withOpacity(0.7),
-                          child: Text(
-                            content.title,
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              },
-            ),*/
           ),
         ],
       ),
     );
   }
-}
 
-void main() {
-  runApp(MaterialApp(
-    home: HomePage(),
-  ));
+  Widget _buildContentCard(Map<String, dynamic> content) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        // Alterar a imagem do conteúdo para um tamanho maior
+        ClipRRect(
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(10), topRight: Radius.circular(10)),
+          child: content['imageURL'] != null
+              ? Image.network(
+                  content['imageURL'],
+                  width: 100,
+                  height: 100,
+                  fit: BoxFit.cover,
+                )
+              : null,
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        // Alterar o título do conteúdo para maior e com fonte Roboto
+        Text(
+          content['tituloObra'],
+          style: TextStyle(
+            fontSize: 15,
+            fontWeight: FontWeight.bold,
+            fontFamily: 'Roboto',
+          ),
+        ),
+        Align(
+          alignment: Alignment.topRight,
+          child: IconButton(
+            icon: Icon(
+              content['favorito'] ? Icons.favorite : Icons.favorite_border,
+              color: content['favorito'] ? Colors.red : Colors.black,
+            ),
+            onPressed: () {
+              setState(() {
+                content['favorito'] = !content['favorito'];
+              });
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
+  // Alterar o método `_getUserInfo()` para retornar o nome do usuário
+  void _getUserInfo() async {
+    _user = await _auth.currentUser;
+    if (_user != null) {
+      setState(() {
+        // Alterar o nome do usuário na seção de bem-vindo
+        _user?.displayName;
+      });
+    }
+  }
 }

@@ -4,6 +4,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:yourop/screen/Login/LoginPage.dart';
 import 'package:yourop/screen/Perfil/EditProfilePage.dart';
 
 class Profile extends StatefulWidget {
@@ -234,7 +235,7 @@ class _ProfileState extends State<Profile> {
                 child: Text('Sim'),
                 onPressed: () async {
                   await FirebaseAuth.instance.signOut();
-                  // Você pode adicionar aqui a navegação para a tela de login ou outra ação após o logout
+                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>LoginPage()), (route) => false);
                 },
               ),
             ],

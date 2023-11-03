@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:yourop/services/api_consumer.dart';
 
 class EditProfilePage extends StatefulWidget {
   const EditProfilePage({Key? key}) : super(key: key);
@@ -25,11 +27,19 @@ class _EditProfilePageState extends State<EditProfilePage> {
     final user = _auth.currentUser;
     if (user != null) {
       // Obter as informações do usuário do Firebase
-      setState(() {
-        _name = user.displayName;
-        _email = user.email;
-        _photoUrl = user.photoURL;
-      });
+      DatabaseReference userRef =
+          FirebaseDatabase.instance.ref().child('users/${user.uid}');
+      userRef.once().then(
+        (value) {
+          setState(() {
+            Map<Object?, Object?> data =
+                value.snapshot.value as Map<Object?, Object?>;
+            _name = data.entries.first.value.toString();
+            _email = user.email;
+            _photoUrl = user.photoURL;
+          });
+        },
+      );
     }
   }
 
@@ -78,6 +88,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 onPressed: () {
                   // Verificar se o usuário está conectado
                   final user = _auth.currentUser;
+                  DatabaseReference userRef = FirebaseDatabase.instance
+                      .ref()
+                      .child('users/${user?.uid}');
                   if (user != null) {
                     _formKey.currentState!
                         .save(); // Chame o onSaved para atualizar o valor do _name.
@@ -85,7 +98,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     // Verificar se o campo 'nome' tem um valor não vazio
                     if (_name != null && _name!.isNotEmpty) {
                       // Atualizar as informações do usuário no Firebase
-                      user.updateProfile(displayName: _name).then((_) {
+                      userRef.update({'name': _name}).then((value) {
+                        API.setNomeUsuario(user.uid, _name!);
+                        user.updateDisplayName(_name);
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             content: Text('Perfil atualizado com sucesso!'),
