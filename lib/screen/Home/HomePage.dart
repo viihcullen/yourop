@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -31,9 +32,18 @@ class _HomePageState extends State<HomePage> {
   void getObra() async {
     Response obrasRes = await API.getObras();
     List<dynamic> ob = jsonDecode(obrasRes.body);
+    User? user = FirebaseAuth.instance.currentUser;
+    if(user != null){
+      var favs = await (FirebaseDatabase.instance.ref().child("/users/${user.uid}/favoritos")).get();
+      List<dynamic> obsFavs = ob.map((e){
+      e['favorito'] = (favs.value as List<Object?>).contains(e['idObra']);
+      return e;
+    }).toList();
     setState(() {
       obras = ob.cast<Map<String, dynamic>>();
     });
+    }
+    
   }
 
   void _navigateToSearchPage(BuildContext context) {

@@ -17,7 +17,6 @@ class _FavoritosPageState extends State<FavoritosPage> {
     User? user = FirebaseAuth.instance.currentUser;
     if(user != null){
       var favs = await (FirebaseDatabase.instance.ref().child("/users/${user.uid}/favoritos")).get();
-      print(favs.value);
       List<Map<String, dynamic>> favorits = [];
       for (var i = 0; i < (favs.value as List<Object?>).length; i++) {
         var v = await API.getObra((favs.value as List<Object?>)[i].toString());
