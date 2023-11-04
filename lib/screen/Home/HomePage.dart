@@ -33,17 +33,19 @@ class _HomePageState extends State<HomePage> {
     Response obrasRes = await API.getObras();
     List<dynamic> ob = jsonDecode(obrasRes.body);
     User? user = FirebaseAuth.instance.currentUser;
-    if(user != null){
-      var favs = await (FirebaseDatabase.instance.ref().child("/users/${user.uid}/favoritos")).get();
-      List<dynamic> obsFavs = ob.map((e){
-      e['favorito'] = (favs.value as List<Object?>).contains(e['idObra']);
-      return e;
-    }).toList();
-    setState(() {
-      obras = ob.cast<Map<String, dynamic>>();
-    });
+    if (user != null) {
+      var favs = await (FirebaseDatabase.instance
+              .ref()
+              .child("/users/${user.uid}/favoritos"))
+          .get();
+      List<dynamic> obsFavs = ob.map((e) {
+        e['favorito'] = (favs.value as List<Object?>).contains(e['idObra']);
+        return e;
+      }).toList();
+      setState(() {
+        obras = ob.cast<Map<String, dynamic>>();
+      });
     }
-    
   }
 
   void _navigateToSearchPage(BuildContext context) {
@@ -64,15 +66,19 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       // Alterar a cor do appbar
       appBar: AppBar(
-        title: Text('YourOP'),
-        shadowColor: Colors.transparent,
-        backgroundColor: Colors.white,
-      ),
-      // Adicionar uma barra de pesquisa
+          shadowColor: Colors.transparent,
+          backgroundColor: Colors.white,
+          actions: [
+            IconButton(
+              onPressed: () => _navigateToSearchPage(context),
+              icon: Icon(Icons.search_rounded),
+              color: Colors.black,
+              iconSize: 24,
+            )
+          ]),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // Adicionar uma seção de bem-vindo
           Container(
             width: 100,
             alignment: Alignment.center,
@@ -137,7 +143,7 @@ class _HomePageState extends State<HomePage> {
                   height: 100,
                   fit: BoxFit.cover,
                 )
-              : null,
+              : Placeholder(),
         ),
         SizedBox(
           height: 10,

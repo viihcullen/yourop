@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:yourop/screen/Pesquisa/SearchPage.dart';
 import '../../models/content.dart';
 import 'page/description.dart';
 import 'page/critic.dart';
@@ -13,7 +14,6 @@ class ReviewPage extends StatelessWidget {
 
   // Função para calcular a média das avaliações
   double calculateAverageRating(double ratings) {
-    
     return ratings;
   }
 
@@ -29,7 +29,7 @@ class ReviewPage extends StatelessWidget {
           IconButton(
             icon: Icon(Icons.search_sharp),
             onPressed: () {
-              _openSearch(context);
+              _navigateToSearchPage(context);
             },
           ),
         ],
@@ -40,9 +40,10 @@ class ReviewPage extends StatelessWidget {
             padding: const EdgeInsets.all(16.0),
             child: Row(
               children: [
-                CircleAvatar(
-                  backgroundImage: NetworkImage(obra['imageURL']!),
-                  radius: 50,
+                Image.network(
+                  obra['imageURL']!,
+                  width: 50,
+                  height: 25,
                 ),
                 SizedBox(width: 20),
                 Expanded(
@@ -50,13 +51,15 @@ class ReviewPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        obra['escritor']!=null?"Escritor: ${obra['escritor']['nomeEscritor']}":"Diretor: ${obra['diretor']['nomeDiretor']}",
+                        obra['escritor'] != null
+                            ? "Escritor: ${obra['escritor']['nomeEscritor']}"
+                            : "Diretor: ${obra['diretor']['nomeDiretor']}",
                         style: TextStyle(
                           fontSize: 16,
                         ),
                       ),
                       Text(
-                        'Gênero: ${obra['obraCategoria'].map((obracat)=>obracat['categoria']['nomeCategoria']).join(', ')}',
+                        'Gênero: ${obra['obraCategoria'].map((obracat) => obracat['categoria']['nomeCategoria']).join(', ')}',
                         style: TextStyle(
                           fontSize: 16,
                           color: Colors.grey,
@@ -72,7 +75,7 @@ class ReviewPage extends StatelessWidget {
                         itemSize: 24.0,
                         itemBuilder: (context, _) => Icon(
                           Icons.star,
-                          color: Colors.purple,
+                          color: Colors.deepPurple[300],
                         ),
                         onRatingUpdate: (rating) {
                           print("Avaliação atualizada para $rating");
@@ -88,7 +91,7 @@ class ReviewPage extends StatelessWidget {
                         itemSize: 24.0,
                         itemBuilder: (context, _) => Icon(
                           Icons.star,
-                          color: Colors.purple,
+                          color: Colors.deepPurple[300],
                         ),
                         onRatingUpdate: (rating) {
                           print("Avaliação atualizada para $rating");
@@ -137,5 +140,8 @@ class ReviewPage extends StatelessWidget {
     );
   }
 
-  void _openSearch(BuildContext context) {}
+  void _navigateToSearchPage(BuildContext context) {
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => SearchPage()));
+  }
 }
