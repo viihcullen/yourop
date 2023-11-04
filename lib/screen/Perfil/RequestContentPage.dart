@@ -9,12 +9,39 @@ class RequestContentPage extends StatefulWidget {
 
 class _RequestContentPageState extends State<RequestContentPage> {
   final _formKey = GlobalKey<FormState>();
+  TextEditingController titleController = TextEditingController();
+  TextEditingController contentTypeController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
+
+  void _submitRequest() {
+    if (_formKey.currentState!.validate()) {
+      // Simular envio da solicitação para o servidor (substitua com a lógica real)
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Solicitação enviada com sucesso')),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Solicitar conteúdo'),
+        centerTitle: true,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          color: Colors.black,
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.send),
+            color: Theme.of(context).primaryColor,
+            onPressed: () {},
+          ),
+        ],
       ),
       body: Form(
         key: _formKey,
@@ -23,8 +50,9 @@ class _RequestContentPageState extends State<RequestContentPage> {
           child: Column(
             children: [
               TextFormField(
+                controller: titleController,
                 decoration: InputDecoration(
-                  labelText: 'Título',
+                  labelText: 'Título Descritivo',
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -33,9 +61,11 @@ class _RequestContentPageState extends State<RequestContentPage> {
                   return null;
                 },
               ),
+              SizedBox(height: 12),
               TextFormField(
+                controller: contentTypeController,
                 decoration: InputDecoration(
-                  labelText: 'Tipo de conteúdo',
+                  labelText: 'Tipo de Conteúdo (ex: Livro, Filme)',
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -44,9 +74,12 @@ class _RequestContentPageState extends State<RequestContentPage> {
                   return null;
                 },
               ),
+              SizedBox(height: 12),
               TextFormField(
+                controller: descriptionController,
+                maxLines: 4,
                 decoration: InputDecoration(
-                  labelText: 'Descrição',
+                  labelText: 'Descrição Detalhada',
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -55,13 +88,10 @@ class _RequestContentPageState extends State<RequestContentPage> {
                   return null;
                 },
               ),
+              SizedBox(height: 20),
               ElevatedButton(
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    // Enviar solicitação para o servidor
-                  }
-                },
-                child: Text('Enviar'),
+                onPressed: _submitRequest,
+                child: Text('Enviar Solicitação'),
               ),
             ],
           ),
