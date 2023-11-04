@@ -11,30 +11,35 @@ class ConsultaCritic extends StatelessWidget {
         leading: IconButton(
             icon: Icon(Icons.arrow_back),
             onPressed: () => Navigator.pop(context)),
-            title: Text(metaR['tituloAvaliacaoCritica']),
+        title: Text(metaR['tituloAvaliacaoCritica']),
       ),
-      body: Column(
-        children: [
-          Container(
-              height: 50,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                shrinkWrap: true,
-                itemCount: metaR['_count']['criterioAvaliativo'],
-                itemBuilder: (context, index) {
-                  return 
-                  Container(
-                    margin: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-                    child: Column(
-                      children: [
-                      Text(metaR['criterioAvaliativo'][index]['valorAvaliacaoCritica'].toString()),
-                      Text(metaR['criterioAvaliativo'][index]['criterioAvaliativo']['nomeCriterioAvaliativo'])
-                    ],
-                  ));
-                },
-              )),
-          Text(metaR['comentarioAvaliacaoCritica'])
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+                height: 50,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  shrinkWrap: true,
+                  itemCount: metaR['_count']['criterioAvaliativo'],
+                  itemBuilder: (context, index) {
+                    return Container(
+                        margin: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                        child: Column(
+                          children: [
+                            Text(metaR['criterioAvaliativo'][index]
+                                    ['valorAvaliacaoCritica']
+                                .toString()),
+                            Text(metaR['criterioAvaliativo'][index]
+                                    ['criterioAvaliativo']
+                                ['nomeCriterioAvaliativo'])
+                          ],
+                        ));
+                  },
+                )),
+            Text(metaR['comentarioAvaliacaoCritica'])
+          ],
+        ),
       ),
     );
   }
