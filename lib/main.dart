@@ -15,6 +15,11 @@ class YourOpApp extends StatelessWidget {
         brightness: Brightness.light,
         primaryColor: Colors.deepPurple[300],
         scaffoldBackgroundColor: Colors.white,
+        appBarTheme: AppBarTheme(
+          backgroundColor: Colors.white, // Cor da barra de aplicativos (branco)
+          iconTheme:
+              IconThemeData(color: Colors.black), // Cor dos ícones (preto)
+        ),
         inputDecorationTheme: const InputDecorationTheme(
           border: OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(50))),
