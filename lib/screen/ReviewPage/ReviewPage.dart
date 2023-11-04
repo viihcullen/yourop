@@ -42,12 +42,7 @@ class ReviewPage extends StatelessWidget {
               children: [
                 Image.network(
                   obra['imageURL']!,
-<<<<<<< Updated upstream
-                  width: 100,
-                  height: 50,
-=======
                   height: 120,
->>>>>>> Stashed changes
                 ),
                 SizedBox(width: 20),
                 Expanded(
