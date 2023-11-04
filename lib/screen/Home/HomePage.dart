@@ -7,6 +7,7 @@ import 'package:http/http.dart';
 import 'package:yourop/models/Obra.dart';
 import 'package:yourop/services/api_consumer.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:yourop/services/firebase_actions_user.dart';
 import '../../models/content.dart';
 import '../ReviewPage/ReviewPage.dart';
 import '../Pesquisa/SearchPage.dart';
@@ -29,21 +30,32 @@ class _HomePageState extends State<HomePage> {
     getObra();
   }
 
+  void teste() async {
+    DataSnapshot teste = await FirebaseDatabase.instance
+        .ref("/users/sXsNsJYGAbVLiXav9hTtxoA2lCT2/favoritos")
+        .get();
+    print(teste.value);
+    List<String> a = ['345', '123', '543'];
+    teste.ref.update(a.asMap().map((key, value) => MapEntry(key.toString(), value)));
+  }
+
   void getObra() async {
     Response obrasRes = await API.getObras();
     List<dynamic> ob = jsonDecode(obrasRes.body);
     User? user = FirebaseAuth.instance.currentUser;
-    if(user != null){
-      var favs = await (FirebaseDatabase.instance.ref().child("/users/${user.uid}/favoritos")).get();
-      List<dynamic> obsFavs = ob.map((e){
-      e['favorito'] = (favs.value as List<Object?>).contains(e['idObra']);
-      return e;
-    }).toList();
-    setState(() {
-      obras = ob.cast<Map<String, dynamic>>();
-    });
+    if (user != null) {
+      var favs = await (FirebaseDatabase.instance
+              .ref()
+              .child("/users/${user.uid}/favoritos"))
+          .get();
+      List<dynamic> obsFavs = ob.map((e) {
+        e['favorito'] = (favs.value as List<Object?>).contains(e['idObra']);
+        return e;
+      }).toList();
+      setState(() {
+        obras = ob.cast<Map<String, dynamic>>();
+      });
     }
-    
   }
 
   void _navigateToSearchPage(BuildContext context) {
@@ -104,6 +116,7 @@ class _HomePageState extends State<HomePage> {
                 return GestureDetector(
                   onTap: () {
                     setState(() {
+                      teste();
                       content['favorito'] = !content['favorito'];
                     });
                     _navigateToReviewPage(context, content);
@@ -161,6 +174,7 @@ class _HomePageState extends State<HomePage> {
             onPressed: () {
               setState(() {
                 content['favorito'] = !content['favorito'];
+                FirebaseActionsUser.favoritar(content['idObra'], content['favorito']);
               });
             },
           ),

@@ -16,7 +16,7 @@ class ConsultaCritic extends StatelessWidget {
       body: Column(
         children: [
           Container(
-              height: 50,
+              height: 80,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 shrinkWrap: true,
@@ -24,7 +24,12 @@ class ConsultaCritic extends StatelessWidget {
                 itemBuilder: (context, index) {
                   return 
                   Container(
-                    margin: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                    margin: const EdgeInsets.fromLTRB(5, 10, 5, 10),
+                    padding: EdgeInsets.fromLTRB(5, 10, 5, 10),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey),
+                      borderRadius: BorderRadius.all(Radius.circular(5))
+                    ),
                     child: Column(
                       children: [
                       Text(metaR['criterioAvaliativo'][index]['valorAvaliacaoCritica'].toString()),
@@ -33,7 +38,23 @@ class ConsultaCritic extends StatelessWidget {
                   ));
                 },
               )),
-          Text(metaR['comentarioAvaliacaoCritica'])
+              Container(
+                padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
+                child: Text(metaR['comentarioAvaliacaoCritica'], textAlign: TextAlign.center),
+              ),
+              Container(
+                 padding: EdgeInsets.fromLTRB(5, 10, 5, 10),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey),
+                      borderRadius: BorderRadius.all(Radius.circular(5))
+                    ),
+                child: Column(
+                      children: [
+                      Text(metaR['valorAvaliacaoCriticaGeral'].toString(), style: TextStyle(fontSize: 20),),
+                      Text("Avaliação Geral")
+                    ],
+                  ),
+              )
         ],
       ),
     );
