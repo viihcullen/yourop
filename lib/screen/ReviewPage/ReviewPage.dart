@@ -8,12 +8,12 @@ import 'page/critic.dart';
 import 'page/commentspage.dart';
 
 class ReviewPage extends StatelessWidget {
+  var teste = GlobalKey();
   final Map<String, dynamic> obra;
   ReviewPage({required this.obra});
 
   // Função para calcular a média das avaliações
   double calculateAverageRating(double ratings) {
-    
     return ratings;
   }
 
@@ -21,6 +21,16 @@ class ReviewPage extends StatelessWidget {
   Widget build(BuildContext context) {
     double averageRatingUser = calculateAverageRating(2.0);
     double averageRatingMeta = calculateAverageRating(4.0);
+    double getHeight() {
+      print(teste.currentContext);
+      if (teste.currentContext != null) {
+        RenderBox box = (teste.currentContext!.findRenderObject() as RenderBox);
+        double h = box.size.height;
+        return h;
+      } else {
+        return 280;
+      }
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -37,6 +47,7 @@ class ReviewPage extends StatelessWidget {
       body: ListView(
         children: [
           Padding(
+            key: teste,
             padding: const EdgeInsets.all(16.0),
             child: Row(
               children: [
@@ -50,13 +61,15 @@ class ReviewPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        obra['escritor']!=null?"Escritor: ${obra['escritor']['nomeEscritor']}":"Diretor: ${obra['diretor']['nomeDiretor']}",
+                        obra['escritor'] != null
+                            ? "Escritor: ${obra['escritor']['nomeEscritor']}"
+                            : "Diretor: ${obra['diretor']['nomeDiretor']}",
                         style: TextStyle(
                           fontSize: 16,
                         ),
                       ),
                       Text(
-                        'Gênero: ${obra['obraCategoria'].map((obracat)=>obracat['categoria']['nomeCategoria']).join(', ')}',
+                        'Gênero: ${obra['obraCategoria'].map((obracat) => obracat['categoria']['nomeCategoria']).join(', ')}',
                         style: TextStyle(
                           fontSize: 16,
                           color: Colors.grey,
@@ -114,7 +127,7 @@ class ReviewPage extends StatelessWidget {
                   ],
                 ),
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.5,
+                  height: MediaQuery.of(context).size.height - getHeight(),
                   child: TabBarView(
                     children: [
                       Description(
