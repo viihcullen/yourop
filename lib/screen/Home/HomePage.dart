@@ -101,6 +101,115 @@ class _HomePageState extends State<HomePage> {
               ),*/
             ),
           ),
+          Text(
+            'Talvez você goste',
+            style: GoogleFonts.sacramento(
+                textStyle: TextStyle(
+                    fontSize: 25,
+                    fontWeight: FontWeight.w100,
+                    color: Colors.black54)),
+            textAlign: TextAlign.justify,
+          ),
+          SizedBox(height: 16.0),
+          Expanded(
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: obras.length,
+              itemBuilder: (context, index) {
+                final content = obras[index];
+                return GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      content['favorito'] = !content['favorito'];
+                    });
+                    _navigateToReviewPage(context, content);
+                  },
+                  child: Container(
+                    margin: EdgeInsets.all(8),
+                    width: 100,
+                    child: _buildContentCard(content),
+                  ),
+                );
+              },
+            ),
+          ),
+          SizedBox(height: 16.0),
+          Text(
+            'Filmes',
+            style: GoogleFonts.sacramento(
+                textStyle: TextStyle(
+                    fontSize: 25,
+                    fontWeight: FontWeight.w100,
+                    color: Colors.black54)),
+            textAlign: TextAlign.justify,
+          ),
+          SizedBox(height: 16.0),
+          Expanded(
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: obras.length,
+              itemBuilder: (context, index) {
+                final content = obras[index];
+                return GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      content['favorito'] = !content['favorito'];
+                    });
+                    _navigateToReviewPage(context, content);
+                  },
+                  child: Container(
+                    margin: EdgeInsets.all(8),
+                    width: 100,
+                    child: _buildContentCard(content),
+                  ),
+                );
+              },
+            ),
+          ),
+          SizedBox(height: 16.0),
+          Text(
+            'Animes',
+            style: GoogleFonts.sacramento(
+                textStyle: TextStyle(
+                    fontSize: 25,
+                    fontWeight: FontWeight.w100,
+                    color: Colors.black54)),
+            textAlign: TextAlign.justify,
+          ),
+          SizedBox(height: 16.0),
+          Expanded(
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: obras.length,
+              itemBuilder: (context, index) {
+                final content = obras[index];
+                return GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      content['favorito'] = !content['favorito'];
+                    });
+                    _navigateToReviewPage(context, content);
+                  },
+                  child: Container(
+                    margin: EdgeInsets.all(8),
+                    width: 100,
+                    child: _buildContentCard(content),
+                  ),
+                );
+              },
+            ),
+          ),
+          SizedBox(height: 16.0),
+          Text(
+            'Doramas',
+            style: GoogleFonts.sacramento(
+                textStyle: TextStyle(
+                    fontSize: 25,
+                    fontWeight: FontWeight.w100,
+                    color: Colors.black54)),
+            textAlign: TextAlign.justify,
+          ),
+          SizedBox(height: 16.0),
           Expanded(
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
