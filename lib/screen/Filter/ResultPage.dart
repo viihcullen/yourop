@@ -34,13 +34,15 @@ class _SearchResultsPageState extends State<SearchResultsPage> {
         itemCount: widget.filteredObras.length,
         itemBuilder: (context, index) {
           final obra = widget.filteredObras[index];
-          return ListTile(
-            leading: obra.imageUrl != null
-                ? Image.network(obra.imageUrl!)
-                : Placeholder(),
-            title: Text(obra.tituloObra ?? ''),
-            subtitle: Text(obra.resumoObra ?? ''),
+          return GestureDetector(
             onTap: () {},
+            child: ListTile(
+              leading: obra.imageUrl != null
+                  ? Image.network(obra.imageUrl!)
+                  : Placeholder(),
+              title: Text(obra.tituloObra ?? ''),
+              subtitle: Text(obra.resumoObra ?? ''),
+            ),
           );
         },
       ),
