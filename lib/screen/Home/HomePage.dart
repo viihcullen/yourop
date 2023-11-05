@@ -153,8 +153,10 @@ class _HomePageState extends State<HomePage> {
   Widget _buildContentCard(Map<String, dynamic> content) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        ClipRRect(
+        Column(
+          children: [ClipRRect(
           borderRadius: BorderRadius.circular(10),
           child: content['imageURL'] != null
               ? Image.network(
@@ -166,16 +168,15 @@ class _HomePageState extends State<HomePage> {
               : Placeholder(),
         ),
         SizedBox(height: 10),
-        Column(
-          children: [
             Text(content['tituloObra'],
                 style: GoogleFonts.roboto(
                   textStyle: TextStyle(
                     fontSize: 10,
                     fontWeight: FontWeight.bold,
                   ),
-                )),
-            Align(
+                )),],
+        ),
+              Align(
               alignment: Alignment.topRight,
               child: IconButton(
                 icon: Icon(
@@ -189,8 +190,7 @@ class _HomePageState extends State<HomePage> {
                 },
               ),
             ),
-          ],
-        ),
+          
       ],
     );
   }
