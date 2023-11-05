@@ -122,7 +122,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildContentList() {
     return Container(
-      height: 150,
+      height: 230,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: obras.length,
