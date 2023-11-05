@@ -160,17 +160,17 @@ class _HomePageState extends State<HomePageTeste> {
             : Placeholder(),
       ),
       SizedBox(height: 10),
-      Text(
-        content['tituloObra'],
-        style: TextStyle(
-          fontSize: 15,
-          fontWeight: FontWeight.bold,
-          fontFamily: 'Roboto',
+      Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+        Text(
+          content['tituloObra'],
+          style: TextStyle(
+            fontSize: 15,
+            fontWeight: FontWeight.bold,
+            fontFamily: 'Roboto',
+          ),
         ),
-      ),
-      Align(
-        alignment: Alignment.topRight,
-        child: IconButton(
+        Spacer(),
+        IconButton(
           icon: Icon(
             content['favorito'] ? Icons.favorite : Icons.favorite_border,
             color: content['favorito'] ? Colors.red : Colors.black,
@@ -181,7 +181,7 @@ class _HomePageState extends State<HomePageTeste> {
             });
           },
         ),
-      )
+      ])
     ]);
   }
 
