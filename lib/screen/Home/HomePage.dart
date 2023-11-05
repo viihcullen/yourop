@@ -1,13 +1,11 @@
 import 'dart:convert';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart';
-import 'package:yourop/models/Obra.dart';
+import 'package:yourop/models/content.dart';
 import 'package:yourop/services/api_consumer.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../models/content.dart';
 import '../ReviewPage/ReviewPage.dart';
 import '../Pesquisa/SearchPage.dart';
 
@@ -17,7 +15,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<Content> availableContents = [];
   List<Map<String, dynamic>> obras = [];
   final FirebaseAuth _auth = FirebaseAuth.instance;
   User? _user;
@@ -64,28 +61,24 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // Alterar a cor do appbar
       appBar: AppBar(
-          shadowColor: Colors.transparent,
-          backgroundColor: Colors.white,
-          actions: [
-            IconButton(
-              onPressed: () => _navigateToSearchPage(context),
-              icon: Icon(Icons.search_rounded),
-              color: Colors.black,
-              iconSize: 24,
-            )
-          ]),
+        backgroundColor: Colors.white,
+        iconTheme: IconThemeData(color: Colors.black),
+        actions: [
+          IconButton(
+            onPressed: () => _navigateToSearchPage(context),
+            icon: Icon(Icons.search_rounded),
+          ),
+        ],
+      ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Container(
-              width: 100,
-              alignment: Alignment.center,
-              padding: EdgeInsets.all(30),
+              padding: EdgeInsets.all(16),
               child: Text(
-                'Bem-Vindo, \n ${_user?.displayName ?? 'Usuário'} !!!',
+                'Bem-Vindo, ${_user?.displayName ?? 'Usuário'} !!!',
                 style: GoogleFonts.sacramento(
                   textStyle: TextStyle(
                     fontSize: 40,
@@ -94,73 +87,80 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 textAlign: TextAlign.center,
-                /*TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                fontFamily: 'Roboto',
-                color: Colors.black, // Alterado para preto
-              ),*/
               ),
             ),
-            Text(
-              'Talvez você goste',
-              style: GoogleFonts.sacramento(
-                  textStyle: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
-              )),
-              textAlign: TextAlign.justify,
-            ),
-            Expanded(
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: obras.length,
-                itemBuilder: (context, index) {
-                  final content = obras[index];
-                  return GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        content['favorito'] = !content['favorito'];
-                      });
-                      _navigateToReviewPage(context, content);
-                    },
-                    child: Container(
-                      margin: EdgeInsets.all(8),
-                      width: 100,
-                      child: _buildContentCard(content),
-                    ),
-                  );
-                },
-              ),
-            ),
+            _buildCategorySection('Talvez você goste'),
+            _buildContentList(),
+            _buildCategorySection('Filmes'),
+            _buildContentList(),
+            _buildCategorySection('Animes'),
+            _buildContentList(),
+            _buildCategorySection('Doramas'),
+            _buildContentList(),
           ],
         ),
       ),
     );
   }
 
+  Widget _buildCategorySection(String category) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 16),
+      child: Text(
+        category,
+        style: GoogleFonts.sacramento(
+          textStyle: TextStyle(
+            fontSize: 25,
+            fontWeight: FontWeight.w100,
+            color: Colors.black54,
+          ),
+        ),
+        textAlign: TextAlign.justify,
+      ),
+    );
+  }
+
+  Widget _buildContentList() {
+    return Container(
+      height: 230,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: obras.length,
+        itemBuilder: (context, index) {
+          final content = obras[index];
+          return GestureDetector(
+            onTap: () {
+              setState(() {
+                content['favorito'] = !content['favorito'];
+              });
+              _navigateToReviewPage(context, content);
+            },
+            child: Container(
+              margin: EdgeInsets.all(8),
+              width: 100,
+              child: _buildContentCard(content),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
   Widget _buildContentCard(Map<String, dynamic> content) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        // Alterar a imagem do conteúdo para um tamanho maior
-        ClipRRect(
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(10), topRight: Radius.circular(10)),
-          child: content['imageURL'] != null
-              ? Image.network(
-                  content['imageURL'],
-                  width: 100,
-                  height: 100,
-                  fit: BoxFit.cover,
-                )
-              : Placeholder(),
-        ),
-        SizedBox(
-          height: 10,
-        ),
-        // Alterar o título do conteúdo para maior e com fonte Roboto
+    return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+      ClipRRect(
+        borderRadius: BorderRadius.circular(10),
+        child: content['imageURL'] != null
+            ? Image.network(
+                content['imageURL'],
+                width: 100,
+                height: 100,
+                fit: BoxFit.cover,
+              )
+            : Placeholder(),
+      ),
+      SizedBox(height: 10),
+      Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         Text(
           content['tituloObra'],
           style: TextStyle(
@@ -169,30 +169,26 @@ class _HomePageState extends State<HomePage> {
             fontFamily: 'Roboto',
           ),
         ),
-        Align(
-          alignment: Alignment.topRight,
-          child: IconButton(
-            icon: Icon(
-              content['favorito'] ? Icons.favorite : Icons.favorite_border,
-              color: content['favorito'] ? Colors.red : Colors.black,
-            ),
-            onPressed: () {
-              setState(() {
-                content['favorito'] = !content['favorito'];
-              });
-            },
+        Spacer(),
+        IconButton(
+          icon: Icon(
+            content['favorito'] ? Icons.favorite : Icons.favorite_border,
+            color: content['favorito'] ? Colors.red : Colors.black,
           ),
+          onPressed: () {
+            setState(() {
+              content['favorito'] = !content['favorito'];
+            });
+          },
         ),
-      ],
-    );
+      ])
+    ]);
   }
 
-  // Alterar o método `_getUserInfo()` para retornar o nome do usuário
   void _getUserInfo() async {
     _user = await _auth.currentUser;
     if (_user != null) {
       setState(() {
-        // Alterar o nome do usuário na seção de bem-vindo
         _user?.displayName;
       });
     }
