@@ -13,33 +13,49 @@ class ConsultaCritic extends StatelessWidget {
             onPressed: () => Navigator.pop(context)),
         title: Text(metaR['tituloAvaliacaoCritica']),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-                height: 50,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  shrinkWrap: true,
-                  itemCount: metaR['_count']['criterioAvaliativo'],
-                  itemBuilder: (context, index) {
-                    return Container(
-                        margin: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-                        child: Column(
-                          children: [
-                            Text(metaR['criterioAvaliativo'][index]
-                                    ['valorAvaliacaoCritica']
-                                .toString()),
-                            Text(metaR['criterioAvaliativo'][index]
-                                    ['criterioAvaliativo']
-                                ['nomeCriterioAvaliativo'])
-                          ],
-                        ));
-                  },
-                )),
-            Text(metaR['comentarioAvaliacaoCritica'])
-          ],
-        ),
+      body: Column(
+        children: [
+          Container(
+              height: 80,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                shrinkWrap: true,
+                itemCount: metaR['_count']['criterioAvaliativo'],
+                itemBuilder: (context, index) {
+                  return 
+                  Container(
+                    margin: const EdgeInsets.fromLTRB(5, 10, 5, 10),
+                    padding: EdgeInsets.fromLTRB(5, 10, 5, 10),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey),
+                      borderRadius: BorderRadius.all(Radius.circular(5))
+                    ),
+                    child: Column(
+                      children: [
+                      Text(metaR['criterioAvaliativo'][index]['valorAvaliacaoCritica'].toString()),
+                      Text(metaR['criterioAvaliativo'][index]['criterioAvaliativo']['nomeCriterioAvaliativo'])
+                    ],
+                  ));
+                },
+              )),
+              Container(
+                padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
+                child: Text(metaR['comentarioAvaliacaoCritica'], textAlign: TextAlign.center),
+              ),
+              Container(
+                 padding: EdgeInsets.fromLTRB(5, 10, 5, 10),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey),
+                      borderRadius: BorderRadius.all(Radius.circular(5))
+                    ),
+                child: Column(
+                      children: [
+                      Text(metaR['valorAvaliacaoCriticaGeral'].toString(), style: TextStyle(fontSize: 20),),
+                      Text("Avaliação Geral")
+                    ],
+                  ),
+              )
+        ],
       ),
     );
   }

@@ -56,6 +56,22 @@ class _CommentsPageState extends State<CommentsPage> {
                           itemBuilder: (context, _) => Icon(
                             Icons.star,
                             color: Colors.purple,
+                        onRatingUpdate: (rating) {
+                          print("Avaliação atualizada para $rating");
+                          ratingComment = rating;
+                        },
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          controller: _commentController,
+                          decoration: InputDecoration(
+                            hintText: 'Digite seu comentário',
+                            border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                            alignLabelWithHint: true
                           ),
                           onRatingUpdate: (rating) {
                             print("Avaliação atualizada para $rating");

@@ -6,6 +6,8 @@ import 'package:http/http.dart';
 import 'package:yourop/models/content.dart';
 import 'package:yourop/services/api_consumer.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:yourop/services/firebase_actions_user.dart';
+import '../../models/content.dart';
 import '../ReviewPage/ReviewPage.dart';
 import '../Pesquisa/SearchPage.dart';
 
@@ -132,6 +134,7 @@ class _HomePageState extends State<HomePage> {
             onTap: () {
               setState(() {
                 content['favorito'] = !content['favorito'];
+                FirebaseActionsUser.favoritar(content['idObra'], content['favorito']);
               });
               _navigateToReviewPage(context, content);
             },
