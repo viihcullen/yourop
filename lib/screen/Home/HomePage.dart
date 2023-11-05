@@ -112,7 +112,7 @@ class _HomePageState extends State<HomePage> {
         category,
         style: GoogleFonts.robotoSerif(
           textStyle: TextStyle(
-            fontSize: 25,
+            fontSize: 15,
             fontWeight: FontWeight.bold,
             color: Colors.black54,
           ),
@@ -170,9 +170,9 @@ class _HomePageState extends State<HomePage> {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Text(content['tituloObra'],
-                style: GoogleFonts.robotoSerif(
+                style: GoogleFonts.roboto(
                   textStyle: TextStyle(
-                    fontSize: 15,
+                    fontSize: 7,
                     fontWeight: FontWeight.bold,
                   ),
                 )),
