@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:yourop/models/obra.dart';
+import 'package:yourop/screen/Filter/ResultPage.dart';
 import 'package:yourop/screen/Pesquisa/SearchPage.dart';
 import 'package:http/http.dart';
 import 'package:yourop/services/api_consumer.dart';
@@ -152,5 +154,7 @@ class _FilterPageState extends State<FilterPage> {
         .push(MaterialPageRoute(builder: (context) => SearchPage()));
   }
 
-  void _navigateToSearchResults(BuildContext context) {}
+  void _navigateToSearchResults(BuildContext context) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context)=>SearchResultsPage(filteredObras: [Obra(idObra: "1", tituloObra: "2", resumoObra: "3", idDiretor: "2", idEscritor: "3")])));
+  }
 }
