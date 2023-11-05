@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:yourop/screen/Pesquisa/SearchPage.dart';
 import '../../models/content.dart';
 import 'page/description.dart';
 import 'page/critic.dart';
@@ -39,7 +40,7 @@ class ReviewPage extends StatelessWidget {
           IconButton(
             icon: Icon(Icons.search_sharp),
             onPressed: () {
-              _openSearch(context);
+              _navigateToSearchPage(context);
             },
           ),
         ],
@@ -51,9 +52,9 @@ class ReviewPage extends StatelessWidget {
             padding: const EdgeInsets.all(16.0),
             child: Row(
               children: [
-                CircleAvatar(
-                  backgroundImage: NetworkImage(obra['imageURL']!),
-                  radius: 50,
+                Image.network(
+                  obra['imageURL']!,
+                  height: 120,
                 ),
                 SizedBox(width: 20),
                 Expanded(
@@ -85,7 +86,7 @@ class ReviewPage extends StatelessWidget {
                         itemSize: 24.0,
                         itemBuilder: (context, _) => Icon(
                           Icons.star,
-                          color: Colors.purple,
+                          color: Colors.deepPurple[300],
                         ),
                         onRatingUpdate: (rating) {
                           print("Avaliação atualizada para $rating");
@@ -101,7 +102,7 @@ class ReviewPage extends StatelessWidget {
                         itemSize: 24.0,
                         itemBuilder: (context, _) => Icon(
                           Icons.star,
-                          color: Colors.purple,
+                          color: Colors.deepPurple[300],
                         ),
                         onRatingUpdate: (rating) {
                           print("Avaliação atualizada para $rating");
@@ -150,5 +151,8 @@ class ReviewPage extends StatelessWidget {
     );
   }
 
-  void _openSearch(BuildContext context) {}
+  void _navigateToSearchPage(BuildContext context) {
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => SearchPage()));
+  }
 }

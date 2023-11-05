@@ -29,7 +29,7 @@ class _LoginPageState extends State<LoginPage> {
         options: DefaultFirebaseOptions.currentPlatform);
     User? user = FirebaseAuth.instance.currentUser;
     if (user != null) {
-      Navigator.of(context).push(
+      Navigator.of(context).pushReplacement(
         MaterialPageRoute(
             builder: (context) => NavigationController(),
             fullscreenDialog: false),

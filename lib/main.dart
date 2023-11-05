@@ -13,7 +13,12 @@ class YourOpApp extends StatelessWidget {
       title: 'YourOp - Review de Conteúdo',
       theme: ThemeData(
         brightness: Brightness.light,
-        primarySwatch: Colors.deepPurple,
+        primaryColor: Colors.deepPurple[300],
+        scaffoldBackgroundColor: Colors.white,
+        appBarTheme: AppBarTheme(
+          backgroundColor: Colors
+              .white, // Cor da barra de aplicativos (branco) // Cor dos ícones (preto)
+        ),
         inputDecorationTheme: const InputDecorationTheme(
           border: OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(50))),

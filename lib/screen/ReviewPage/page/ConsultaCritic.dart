@@ -11,7 +11,7 @@ class ConsultaCritic extends StatelessWidget {
         leading: IconButton(
             icon: Icon(Icons.arrow_back),
             onPressed: () => Navigator.pop(context)),
-            title: Text(metaR['tituloAvaliacaoCritica']),
+        title: Text(metaR['tituloAvaliacaoCritica']),
       ),
       body: Column(
         children: [

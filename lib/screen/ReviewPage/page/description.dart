@@ -8,11 +8,14 @@ class Description extends StatelessWidget {
 
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Text(
-          content['resumoObra'],
-          style: TextStyle(fontSize: 16),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Text(
+            content['resumoObra'],
+            style: TextStyle(fontSize: 16),
+            textAlign: TextAlign.justify,
+          ),
         ),
       ),
     );
