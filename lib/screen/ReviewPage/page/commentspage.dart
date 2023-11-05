@@ -70,6 +70,8 @@ class _CommentsPageState extends State<CommentsPage> {
                           controller: _commentController,
                           decoration: InputDecoration(
                             hintText: 'Digite seu comentário',
+                            border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                            alignLabelWithHint: true
                           ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {

@@ -7,6 +7,7 @@ import 'package:http/http.dart';
 import 'package:yourop/models/Obra.dart';
 import 'package:yourop/services/api_consumer.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:yourop/services/firebase_actions_user.dart';
 import '../../models/content.dart';
 import '../ReviewPage/ReviewPage.dart';
 import '../Pesquisa/SearchPage.dart';
@@ -33,17 +34,19 @@ class _HomePageState extends State<HomePage> {
     Response obrasRes = await API.getObras();
     List<dynamic> ob = jsonDecode(obrasRes.body);
     User? user = FirebaseAuth.instance.currentUser;
-    if(user != null){
-      var favs = await (FirebaseDatabase.instance.ref().child("/users/${user.uid}/favoritos")).get();
-      List<dynamic> obsFavs = ob.map((e){
-      e['favorito'] = (favs.value as List<Object?>).contains(e['idObra']);
-      return e;
-    }).toList();
-    setState(() {
-      obras = ob.cast<Map<String, dynamic>>();
-    });
+    if (user != null) {
+      var favs = await (FirebaseDatabase.instance
+              .ref()
+              .child("/users/${user.uid}/favoritos"))
+          .get();
+      List<dynamic> obsFavs = ob.map((e) {
+        e['favorito'] = (favs.value as List<Object?>).contains(e['idObra']);
+        return e;
+      }).toList();
+      setState(() {
+        obras = ob.cast<Map<String, dynamic>>();
+      });
     }
-    
   }
 
   void _navigateToSearchPage(BuildContext context) {
@@ -161,6 +164,7 @@ class _HomePageState extends State<HomePage> {
             onPressed: () {
               setState(() {
                 content['favorito'] = !content['favorito'];
+                FirebaseActionsUser.favoritar(content['idObra'], content['favorito']);
               });
             },
           ),
