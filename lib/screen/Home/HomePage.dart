@@ -110,10 +110,10 @@ class _HomePageState extends State<HomePage> {
       padding: EdgeInsets.symmetric(horizontal: 16),
       child: Text(
         category,
-        style: GoogleFonts.sacramento(
+        style: GoogleFonts.robotoSerif(
           textStyle: TextStyle(
-            fontSize: 25,
-            fontWeight: FontWeight.w100,
+            fontSize: 12,
+            fontWeight: FontWeight.bold,
             color: Colors.black54,
           ),
         ),
@@ -124,7 +124,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildContentList() {
     return Container(
-      height: 230,
+      height: 210,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: obras.length,
@@ -132,10 +132,6 @@ class _HomePageState extends State<HomePage> {
           final content = obras[index];
           return GestureDetector(
             onTap: () {
-              setState(() {
-                content['favorito'] = !content['favorito'];
-                FirebaseActionsUser.favoritar(content['idObra'], content['favorito']);
-              });
               _navigateToReviewPage(context, content);
             },
             child: Container(
@@ -150,42 +146,51 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildContentCard(Map<String, dynamic> content) {
-    return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-      ClipRRect(
-        borderRadius: BorderRadius.circular(10),
-        child: content['imageURL'] != null
-            ? Image.network(
-                content['imageURL'],
-                width: 100,
-                height: 100,
-                fit: BoxFit.cover,
-              )
-            : Placeholder(),
-      ),
-      SizedBox(height: 10),
-      Text(
-        content['tituloObra'],
-        style: TextStyle(
-          fontSize: 15,
-          fontWeight: FontWeight.bold,
-          fontFamily: 'Roboto',
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Column(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: content['imageURL'] != null
+                  ? Image.network(
+                      content['imageURL'],
+                      width: 100,
+                      height: 100,
+                      fit: BoxFit.cover,
+                    )
+                  : Placeholder(),
+            ),
+            SizedBox(height: 10),
+            Text(content['tituloObra'],
+                style: GoogleFonts.roboto(
+                  textStyle: TextStyle(
+                    fontSize: 10,
+                    fontWeight: FontWeight.bold,
+                  ),
+                )),
+          ],
         ),
-      ),
-      Align(
-        alignment: Alignment.topRight,
-        child: IconButton(
-          icon: Icon(
-            content['favorito'] ? Icons.favorite : Icons.favorite_border,
-            color: content['favorito'] ? Colors.red : Colors.black,
+        Align(
+          alignment: Alignment.topRight,
+          child: IconButton(
+            icon: Icon(
+              content['favorito'] ? Icons.favorite : Icons.favorite_border,
+              color: content['favorito'] ? Colors.red : Colors.black,
+            ),
+            onPressed: () {
+              setState(() {
+                content['favorito'] = !content['favorito'];
+                FirebaseActionsUser.favoritar(
+                    content['idObra'], content['favorito']);
+              });
+            },
           ),
-          onPressed: () {
-            setState(() {
-              content['favorito'] = !content['favorito'];
-            });
-          },
         ),
-      )
-    ]);
+      ],
+    );
   }
 
   void _getUserInfo() async {

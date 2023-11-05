@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:yourop/screen/Pesquisa/SearchPage.dart';
 import 'package:http/http.dart';
 import 'package:yourop/services/api_consumer.dart';
-import '../Pesquisa/SearchPage.dart';
 
 class FilterPage extends StatefulWidget {
   const FilterPage({Key? key}) : super(key: key);
@@ -72,9 +72,10 @@ class _FilterPageState extends State<FilterPage> {
               decoration: const ShapeDecoration(
                 shadows: [
                   BoxShadow(
-                      color: Colors.black12,
-                      offset: Offset(0, 1),
-                      blurRadius: 2.0)
+                    color: Colors.black12,
+                    offset: Offset(0, 1),
+                    blurRadius: 2.0,
+                  ),
                 ],
                 shape: CircleBorder(),
               ),
@@ -135,7 +136,8 @@ class _FilterPageState extends State<FilterPage> {
             padding: const EdgeInsets.all(10.0),
             child: ElevatedButton(
               onPressed: () {
-                
+                // Aqui você pode aplicar os filtros e navegar para a página de resultados.
+                _navigateToSearchResults(context);
               },
               child: const Text('Aplicar Filtros'),
             ),
@@ -149,4 +151,6 @@ class _FilterPageState extends State<FilterPage> {
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (context) => SearchPage()));
   }
+
+  void _navigateToSearchResults(BuildContext context) {}
 }
