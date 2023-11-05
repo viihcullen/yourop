@@ -147,50 +147,42 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildContentCard(Map<String, dynamic> content) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        ClipRRect(
-          borderRadius: BorderRadius.circular(10),
-          child: content['imageURL'] != null
-              ? Image.network(
-                  content['imageURL'],
-                  width: 100,
-                  height: 100,
-                  fit: BoxFit.cover,
-                )
-              : Placeholder(),
+    return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+      ClipRRect(
+        borderRadius: BorderRadius.circular(10),
+        child: content['imageURL'] != null
+            ? Image.network(
+                content['imageURL'],
+                width: 100,
+                height: 100,
+                fit: BoxFit.cover,
+              )
+            : Placeholder(),
+      ),
+      SizedBox(height: 10),
+      Text(
+        content['tituloObra'],
+        style: TextStyle(
+          fontSize: 15,
+          fontWeight: FontWeight.bold,
+          fontFamily: 'Roboto',
         ),
-        SizedBox(height: 10),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              content['tituloObra'],
-              style: TextStyle(
-                fontSize: 15,
-                fontWeight: FontWeight.bold,
-                fontFamily: 'Roboto',
-              ),
-            ),
-            Align(
-              alignment: Alignment.topRight,
-              child: IconButton(
-                icon: Icon(
-                  content['favorito'] ? Icons.favorite : Icons.favorite_border,
-                  color: content['favorito'] ? Colors.red : Colors.black,
-                ),
-                onPressed: () {
-                  setState(() {
-                    content['favorito'] = !content['favorito'];
-                  });
-                },
-              ),
-            ),
-          ],
+      ),
+      Align(
+        alignment: Alignment.topRight,
+        child: IconButton(
+          icon: Icon(
+            content['favorito'] ? Icons.favorite : Icons.favorite_border,
+            color: content['favorito'] ? Colors.red : Colors.black,
+          ),
+          onPressed: () {
+            setState(() {
+              content['favorito'] = !content['favorito'];
+            });
+          },
         ),
-      ],
-    );
+      )
+    ]);
   }
 
   void _getUserInfo() async {
