@@ -76,163 +76,66 @@ class _HomePageState extends State<HomePage> {
               iconSize: 24,
             )
           ]),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Container(
-            width: 100,
-            alignment: Alignment.center,
-            padding: EdgeInsets.all(30),
-            child: Text(
-              'Bem-Vindo, \n ${_user?.displayName ?? 'Usuário'} !!!',
-              style: GoogleFonts.sacramento(
-                textStyle: TextStyle(
-                  fontSize: 40,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Container(
+              width: 100,
+              alignment: Alignment.center,
+              padding: EdgeInsets.all(30),
+              child: Text(
+                'Bem-Vindo, \n ${_user?.displayName ?? 'Usuário'} !!!',
+                style: GoogleFonts.sacramento(
+                  textStyle: TextStyle(
+                    fontSize: 40,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
                 ),
-              ),
-              textAlign: TextAlign.center,
-              /*TextStyle(
+                textAlign: TextAlign.center,
+                /*TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
                 fontFamily: 'Roboto',
                 color: Colors.black, // Alterado para preto
               ),*/
+              ),
             ),
-          ),
-          Text(
-            'Talvez você goste',
-            style: GoogleFonts.sacramento(
-                textStyle: TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.w100,
-                    color: Colors.black54)),
-            textAlign: TextAlign.justify,
-          ),
-          SizedBox(height: 16.0),
-          Expanded(
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: obras.length,
-              itemBuilder: (context, index) {
-                final content = obras[index];
-                return GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      content['favorito'] = !content['favorito'];
-                    });
-                    _navigateToReviewPage(context, content);
-                  },
-                  child: Container(
-                    margin: EdgeInsets.all(8),
-                    width: 100,
-                    child: _buildContentCard(content),
-                  ),
-                );
-              },
+            Text(
+              'Talvez você goste',
+              style: GoogleFonts.sacramento(
+                  textStyle: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              )),
+              textAlign: TextAlign.justify,
             ),
-          ),
-          SizedBox(height: 16.0),
-          Text(
-            'Filmes',
-            style: GoogleFonts.sacramento(
-                textStyle: TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.w100,
-                    color: Colors.black54)),
-            textAlign: TextAlign.justify,
-          ),
-          SizedBox(height: 16.0),
-          Expanded(
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: obras.length,
-              itemBuilder: (context, index) {
-                final content = obras[index];
-                return GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      content['favorito'] = !content['favorito'];
-                    });
-                    _navigateToReviewPage(context, content);
-                  },
-                  child: Container(
-                    margin: EdgeInsets.all(8),
-                    width: 100,
-                    child: _buildContentCard(content),
-                  ),
-                );
-              },
+            Expanded(
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: obras.length,
+                itemBuilder: (context, index) {
+                  final content = obras[index];
+                  return GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        content['favorito'] = !content['favorito'];
+                      });
+                      _navigateToReviewPage(context, content);
+                    },
+                    child: Container(
+                      margin: EdgeInsets.all(8),
+                      width: 100,
+                      child: _buildContentCard(content),
+                    ),
+                  );
+                },
+              ),
             ),
-          ),
-          SizedBox(height: 16.0),
-          Text(
-            'Animes',
-            style: GoogleFonts.sacramento(
-                textStyle: TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.w100,
-                    color: Colors.black54)),
-            textAlign: TextAlign.justify,
-          ),
-          SizedBox(height: 16.0),
-          Expanded(
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: obras.length,
-              itemBuilder: (context, index) {
-                final content = obras[index];
-                return GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      content['favorito'] = !content['favorito'];
-                    });
-                    _navigateToReviewPage(context, content);
-                  },
-                  child: Container(
-                    margin: EdgeInsets.all(8),
-                    width: 100,
-                    child: _buildContentCard(content),
-                  ),
-                );
-              },
-            ),
-          ),
-          SizedBox(height: 16.0),
-          Text(
-            'Doramas',
-            style: GoogleFonts.sacramento(
-                textStyle: TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.w100,
-                    color: Colors.black54)),
-            textAlign: TextAlign.justify,
-          ),
-          SizedBox(height: 16.0),
-          Expanded(
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: obras.length,
-              itemBuilder: (context, index) {
-                final content = obras[index];
-                return GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      content['favorito'] = !content['favorito'];
-                    });
-                    _navigateToReviewPage(context, content);
-                  },
-                  child: Container(
-                    margin: EdgeInsets.all(8),
-                    width: 100,
-                    child: _buildContentCard(content),
-                  ),
-                );
-              },
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
