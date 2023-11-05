@@ -132,11 +132,6 @@ class _HomePageState extends State<HomePage> {
           final content = obras[index];
           return GestureDetector(
             onTap: () {
-              setState(() {
-                content['favorito'] = !content['favorito'];
-                FirebaseActionsUser.favoritar(
-                    content['idObra'], content['favorito']);
-              });
               _navigateToReviewPage(context, content);
             },
             child: Container(
@@ -184,8 +179,10 @@ class _HomePageState extends State<HomePage> {
                 ),
                 onPressed: () {
                   setState(() {
-                    content['favorito'] = !content['favorito'];
-                  });
+                content['favorito'] = !content['favorito'];
+                FirebaseActionsUser.favoritar(
+                    content['idObra'], content['favorito']);
+              });
                 },
               ),
             ),
