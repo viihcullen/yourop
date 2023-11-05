@@ -1,5 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:yourop/screen/Pesquisa/SearchPage.dart';
+import 'package:http/http.dart';
+import 'package:yourop/services/api_consumer.dart';
 
 class FilterPage extends StatefulWidget {
   const FilterPage({Key? key}) : super(key: key);
@@ -12,32 +16,23 @@ class _FilterPageState extends State<FilterPage> {
   List<String> selectedCategoria = [];
   List<String> selectedGeneros = [];
 
-  final List<String> availableGeneros = [
-    'Ação',
-    'Aventura',
-    'Comédia',
-    'Drama',
-    'Ficção Científica',
-    'Fantasia',
-    'Terror',
-    'Romance',
-    'Documentário',
-    'Animação',
-    'Mistério',
-    'Suspense',
-    'Crime',
-    'Musical',
-    'História',
-    'Biografia',
-    'Esportes',
-    'Família',
-  ];
+  List<Map<String, dynamic>> availableGeneros = [];
   final List<String> availableCategoria = [
     'Games',
     'Filmes e Séries',
     'Animes',
     'Dramas',
   ];
+
+  void loadGeneros() async{
+    Response res = await API.getCategorias();
+    if(res.statusCode == 200){
+      List<dynamic> gens = jsonDecode(res.body);
+      setState(() {
+        availableGeneros = gens.cast<Map<String, dynamic>>();
+      });
+    }
+  }
 
   void _toggleGeneros(String genero) {
     setState(() {
@@ -57,6 +52,12 @@ class _FilterPageState extends State<FilterPage> {
         selectedCategoria.add(categoria);
       }
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    loadGeneros();
   }
 
   @override
@@ -122,10 +123,10 @@ class _FilterPageState extends State<FilterPage> {
               itemBuilder: (context, index) {
                 final genero = availableGeneros[index];
                 return CheckboxListTile(
-                  title: Text(genero),
-                  value: selectedGeneros.contains(genero),
+                  title: Text(genero['nomeCategoria']!),
+                  value: selectedGeneros.contains(genero['idCategoria']),
                   onChanged: (value) {
-                    _toggleGeneros(genero);
+                    _toggleGeneros(genero['idCategoria']!);
                   },
                 );
               },
