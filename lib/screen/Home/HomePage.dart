@@ -124,7 +124,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildContentList() {
     return Container(
-      height: 230,
+      height: 200,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: obras.length,
@@ -151,43 +151,44 @@ class _HomePageState extends State<HomePage> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Column(
-          children: [ClipRRect(
-          borderRadius: BorderRadius.circular(10),
-          child: content['imageURL'] != null
-              ? Image.network(
-                  content['imageURL'],
-                  width: 100,
-                  height: 100,
-                  fit: BoxFit.cover,
-                )
-              : Placeholder(),
-        ),
-        SizedBox(height: 10),
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: content['imageURL'] != null
+                  ? Image.network(
+                      content['imageURL'],
+                      width: 100,
+                      height: 100,
+                      fit: BoxFit.cover,
+                    )
+                  : Placeholder(),
+            ),
+            SizedBox(height: 10),
             Text(content['tituloObra'],
                 style: GoogleFonts.roboto(
                   textStyle: TextStyle(
                     fontSize: 10,
                     fontWeight: FontWeight.bold,
                   ),
-                )),],
+                )),
+          ],
         ),
-              Align(
-              alignment: Alignment.topRight,
-              child: IconButton(
-                icon: Icon(
-                  content['favorito'] ? Icons.favorite : Icons.favorite_border,
-                  color: content['favorito'] ? Colors.red : Colors.black,
-                ),
-                onPressed: () {
-                  setState(() {
+        Align(
+          alignment: Alignment.topRight,
+          child: IconButton(
+            icon: Icon(
+              content['favorito'] ? Icons.favorite : Icons.favorite_border,
+              color: content['favorito'] ? Colors.red : Colors.black,
+            ),
+            onPressed: () {
+              setState(() {
                 content['favorito'] = !content['favorito'];
                 FirebaseActionsUser.favoritar(
                     content['idObra'], content['favorito']);
               });
-                },
-              ),
-            ),
-          
+            },
+          ),
+        ),
       ],
     );
   }
