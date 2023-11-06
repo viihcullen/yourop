@@ -1,11 +1,28 @@
 import 'dart:convert';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:yourop/screen/ReviewPage/ReviewPage.dart';
 import 'package:yourop/services/api_consumer.dart';
 import '../../../models/content.dart';
+
+Future<String> _loadImageFromFirebaseStorage(String uid) async {
+    if (uid != null) {
+      String downloadURL = "";
+      Reference storageReference =
+          FirebaseStorage.instance.ref().child('profile_images/$uid');
+          try{
+      downloadURL = await storageReference.getDownloadURL();
+          }catch(e){
+
+          }
+      print(downloadURL);
+      return downloadURL;
+    }
+    return '';
+  }
 
 class CommentsPage extends StatefulWidget {
   final Map<String, dynamic> content;
@@ -19,6 +36,7 @@ class CommentsPage extends StatefulWidget {
 class _CommentsPageState extends State<CommentsPage> {
   final TextEditingController _commentController = TextEditingController();
   double ratingComment = 0.0;
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,13 +47,7 @@ class _CommentsPageState extends State<CommentsPage> {
                 itemCount: widget.content['avaliacaoUsuario'].length,
                 itemBuilder: (context, index) {
                   final comment = widget.content['avaliacaoUsuario'][index];
-                  return ListTile(
-                    leading: CircleAvatar(
-                        // Exiba a foto do usuário aqui (comment.userPhotoUrl)
-                        ),
-                    title: Text(comment['usuario']['nomeUsuario']),
-                    subtitle: Text(comment['comentarioAvaliacao']),
-                  );
+                  return CommentItem(comment: comment);
                 },
               ),
             ),
@@ -119,5 +131,39 @@ class _CommentsPageState extends State<CommentsPage> {
           ],
         ),
     );
+  }
+}
+
+class CommentItem extends StatefulWidget {
+  Map<String, dynamic> comment;
+  String imageURL = "";
+  CommentItem({super.key, required this.comment});
+
+  @override
+  State<CommentItem> createState() => _CommentItemState();
+}
+
+class _CommentItemState extends State<CommentItem> {
+  void loadImageUsuario() async {
+    var teste = await _loadImageFromFirebaseStorage(widget.comment['usuario']['userUIDAuth']);
+   setState(() {
+      widget.imageURL = teste;
+   });
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    loadImageUsuario();
+  }
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+                    leading: CircleAvatar(
+                        backgroundImage: widget.imageURL.isNotEmpty?NetworkImage(widget.imageURL):null,
+                        ),
+                    title: Text(widget.comment['usuario']['nomeUsuario']),
+                    subtitle: Text(widget.comment['comentarioAvaliacao']),
+                  );
   }
 }

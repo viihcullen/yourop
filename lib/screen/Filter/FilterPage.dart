@@ -75,12 +75,10 @@ class _FilterPageState extends State<FilterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          Container(
-            alignment: Alignment.bottomRight,
-            child: Ink(
+      appBar: AppBar(
+        shadowColor: Colors.transparent,
+        actions: [
+        Ink(
               decoration: const ShapeDecoration(
                 shadows: [
                   BoxShadow(
@@ -100,7 +98,14 @@ class _FilterPageState extends State<FilterPage> {
                 iconSize: 30,
               ),
             ),
-          ),
+      ]),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          /*Container(
+            alignment: Alignment.bottomRight,
+            child: 
+          ),*/
           const Text(
             'Categoria',
             style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),

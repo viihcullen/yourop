@@ -27,7 +27,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     _getUserInfo();
-     getObra();
+    getObra();
   }
 
   void getObra() async {
@@ -39,17 +39,34 @@ class _HomePageState extends State<HomePage> {
               .ref()
               .child("/users/${user.uid}/favoritos"))
           .get();
-      List<dynamic> obsFavs = ob.map((e) {
-        e['favorito'] = (favs.value as List<Object?>).contains(e['idObra']);
-        return e;
-      }).toList();
-      if(mounted){
-      setState(() {
-        obras = ob.cast<Map<String, dynamic>>();
-        obraFilmes =  obras.where((element) => element['idTipoObra'] == "58156ce0-a833-4096-821c-2a469b2dec0b").toList();
-        obrasAnimes = obras.where((element) => element['idTipoObra'] == "fd584451-7749-4c3c-be68-5a4e4a4ee8b3").toList();
-        obrasDoramas = obras.where((element) => element['idTipoObra'] == "5491e903-a099-4f07-8d15-0794f85540e2").toList();
-      });
+      if (favs.value != null) {
+        for (var e in ob) {
+           e['favorito'] = (favs.value as List<Object?>).contains(e['idObra']);
+        }
+      } else {
+         for (var e in ob) {
+           e['favorito'] = false;
+        }
+      }
+      if (mounted) {
+        setState(() {
+          obras = ob.cast<Map<String, dynamic>>();
+          obraFilmes = obras
+              .where((element) =>
+                  element['idTipoObra'] ==
+                  "58156ce0-a833-4096-821c-2a469b2dec0b")
+              .toList();
+          obrasAnimes = obras
+              .where((element) =>
+                  element['idTipoObra'] ==
+                  "fd584451-7749-4c3c-be68-5a4e4a4ee8b3")
+              .toList();
+          obrasDoramas = obras
+              .where((element) =>
+                  element['idTipoObra'] ==
+                  "5491e903-a099-4f07-8d15-0794f85540e2")
+              .toList();
+        });
       }
     }
   }
@@ -73,6 +90,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         iconTheme: IconThemeData(color: Colors.black),
+        shadowColor: Colors.transparent,
         actions: [
           IconButton(
             onPressed: () => _navigateToSearchPage(context),
@@ -130,147 +148,151 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildContentListObras() {
-    return obras.length>0?Container(
-      height: 210,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: obras.length,
-        itemBuilder: (context, index) {
-          final content = obras[index];
-          return GestureDetector(
-            onTap: () {
-              _navigateToReviewPage(context, content);
-            },
-            child: Container(
-              margin: EdgeInsets.all(8),
-              width: 100,
-              child: _buildContentCard(content),
+    return obras.length > 0
+        ? Container(
+            height: 210,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: obras.length,
+              itemBuilder: (context, index) {
+                final content = obras[index];
+                return GestureDetector(
+                  onTap: () {
+                    _navigateToReviewPage(context, content);
+                  },
+                  child: Container(
+                    margin: EdgeInsets.all(8),
+                    width: 100,
+                    child: _buildContentCard(content),
+                  ),
+                );
+              },
             ),
-          );
-        },
-      ),
-    ):Container(
-      height: 180,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: 6,
-        itemBuilder: (context, index) {
-          return Container(
-              margin: EdgeInsets.all(8),
-              width: 100,
-              child: _buildLoadingContentCard(),
-            );
-        },
-      )
-      );
+          )
+        : Container(
+            height: 180,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: 6,
+              itemBuilder: (context, index) {
+                return Container(
+                  margin: EdgeInsets.all(8),
+                  width: 100,
+                  child: _buildLoadingContentCard(),
+                );
+              },
+            ));
   }
 
   Widget _buildContentListFilmes() {
-    return obraFilmes.length>0?Container(
-      height: 210,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: obraFilmes.length,
-        itemBuilder: (context, index) {
-          final content = obraFilmes[index];
-          return GestureDetector(
-            onTap: () {
-              _navigateToReviewPage(context, content);
-            },
-            child: Container(
-              margin: EdgeInsets.all(8),
-              width: 100,
-              child: _buildContentCard(content),
+    return obraFilmes.length > 0
+        ? Container(
+            height: 210,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: obraFilmes.length,
+              itemBuilder: (context, index) {
+                final content = obraFilmes[index];
+                return GestureDetector(
+                  onTap: () {
+                    _navigateToReviewPage(context, content);
+                  },
+                  child: Container(
+                    margin: EdgeInsets.all(8),
+                    width: 100,
+                    child: _buildContentCard(content),
+                  ),
+                );
+              },
             ),
-          );
-        },
-      ),
-    ):Container(
-      height: 180,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: 6,
-        itemBuilder: (context, index) {
-          return Container(
-              margin: EdgeInsets.all(8),
-              width: 100,
-              child: _buildLoadingContentCard(),
-            );
-        },
-      )
-      );
+          )
+        : Container(
+            height: 180,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: 6,
+              itemBuilder: (context, index) {
+                return Container(
+                  margin: EdgeInsets.all(8),
+                  width: 100,
+                  child: _buildLoadingContentCard(),
+                );
+              },
+            ));
   }
 
   Widget _buildContentListAnimes() {
-    return obrasAnimes.length>0?Container(
-      height: 210,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: obrasAnimes.length,
-        itemBuilder: (context, index) {
-          final content = obrasAnimes[index];
-          return GestureDetector(
-            onTap: () {
-              _navigateToReviewPage(context, content);
-            },
-            child: Container(
-              margin: EdgeInsets.all(8),
-              width: 100,
-              child: _buildContentCard(content),
+    return obrasAnimes.length > 0
+        ? Container(
+            height: 210,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: obrasAnimes.length,
+              itemBuilder: (context, index) {
+                final content = obrasAnimes[index];
+                return GestureDetector(
+                  onTap: () {
+                    _navigateToReviewPage(context, content);
+                  },
+                  child: Container(
+                    margin: EdgeInsets.all(8),
+                    width: 100,
+                    child: _buildContentCard(content),
+                  ),
+                );
+              },
             ),
-          );
-        },
-      ),
-    ):Container(
-      height: 180,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: 6,
-        itemBuilder: (context, index) {
-          return Container(
-              margin: EdgeInsets.all(8),
-              width: 100,
-              child: _buildLoadingContentCard(),
-            );
-        },
-      )
-      );
+          )
+        : Container(
+            height: 180,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: 6,
+              itemBuilder: (context, index) {
+                return Container(
+                  margin: EdgeInsets.all(8),
+                  width: 100,
+                  child: _buildLoadingContentCard(),
+                );
+              },
+            ));
   }
 
   Widget _buildContentListDoramas() {
-    return obrasDoramas.length>0?Container(
-      height: 210,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: obrasDoramas.length,
-        itemBuilder: (context, index) {
-          final content = obrasDoramas[index];
-          return GestureDetector(
-            onTap: () {
-              _navigateToReviewPage(context, content);
-            },
-            child: Container(
-              margin: EdgeInsets.all(8),
-              width: 100,
-              child: _buildContentCard(content),
+    return obrasDoramas.length > 0
+        ? Container(
+            height: 210,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: obrasDoramas.length,
+              itemBuilder: (context, index) {
+                final content = obrasDoramas[index];
+                return GestureDetector(
+                  onTap: () {
+                    _navigateToReviewPage(context, content);
+                  },
+                  child: Container(
+                    margin: EdgeInsets.all(8),
+                    width: 100,
+                    child: _buildContentCard(content),
+                  ),
+                );
+              },
             ),
-          );
-        },
-      ),
-    ):Container(
-      height: 180,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: 6,
-        itemBuilder: (context, index) {
-          return Container(
-              margin: EdgeInsets.all(8),
-              width: 100,
-              child: _buildLoadingContentCard(),
-            );
-        },
-      )
-      );
+          )
+        : Container(
+            height: 180,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: 6,
+              itemBuilder: (context, index) {
+                return Container(
+                  margin: EdgeInsets.all(8),
+                  width: 100,
+                  child: _buildLoadingContentCard(),
+                );
+              },
+            ));
   }
 
   Widget _buildContentCard(Map<String, dynamic> content) {
@@ -326,40 +348,40 @@ class _HomePageState extends State<HomePage> {
         baseColor: Colors.grey.shade400,
         highlightColor: Colors.grey.shade200,
         child: Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: Container(
-                   width: 100,
-                      height: 100,
+            Column(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: Container(
+                    width: 100,
+                    height: 100,
                     decoration: BoxDecoration(
                       color: Colors.grey,
                     ),
                   ),
+                ),
+                SizedBox(height: 10),
+                Container(
+                  height: 10,
+                  decoration: BoxDecoration(
+                    color: Colors.grey,
+                    borderRadius: BorderRadius.circular(90),
+                  ),
+                ),
+              ],
             ),
-            SizedBox(height: 10),Container(
-                                height: 10,
-                                decoration: BoxDecoration(
-                                  color: Colors.grey,
-                                  borderRadius: BorderRadius.circular(90),
-                                ),
-                              ),
+            Align(
+              alignment: Alignment.topRight,
+              child: Icon(
+                Icons.favorite_border,
+                color: Colors.black,
+              ),
+            ),
           ],
-        ),
-        Align(
-          alignment: Alignment.topRight,
-          child: Icon(
-             Icons.favorite_border,
-              color: Colors.black,
-            ),
-          ),
-      ],
-    )
-    );
+        ));
   }
 
   void _getUserInfo() async {

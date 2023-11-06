@@ -12,8 +12,7 @@ class MetaReviewCritic extends StatelessWidget {
     final metaReviews = content['avaliacaoCritica'];
 
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Padding(
+      body:Padding(
           padding: EdgeInsets.all(16.0),
           child: Column(children: [
             Expanded(
@@ -52,7 +51,6 @@ class MetaReviewCritic extends StatelessWidget {
           }).toList():[const Text("Sem meta review")],*/
               ),
         ),
-      ),
     );
   }
 }
