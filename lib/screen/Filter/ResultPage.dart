@@ -3,7 +3,7 @@ import 'package:yourop/models/obra.dart';
 import 'package:yourop/screen/ReviewPage/ReviewPage.dart'; // Importe seu modelo Obra
 
 class SearchResultsPage extends StatefulWidget {
-  final List<Obra> filteredObras;
+  final List<Map<String, dynamic>> filteredObras;
 
   SearchResultsPage({required this.filteredObras});
 
@@ -29,26 +29,33 @@ class _SearchResultsPageState extends State<SearchResultsPage> {
               color: Colors.black,
             )),
         centerTitle: true,
+        iconTheme: IconThemeData(
+          color: Colors.black
+        ),
       ),
-      body: ListView.builder(
+      body: widget.filteredObras.length>0?ListView.builder(
         scrollDirection: Axis.vertical,
         shrinkWrap: true,
         itemCount: widget.filteredObras.length,
         itemBuilder: (context, index) {
           final obra = widget.filteredObras[index];
-          obra.imageUrl =
-              "https://firebasestorage.googleapis.com/v0/b/db-yourop.appspot.com/o/obra_images%2F013af216-fa7b-4b3d-88dc-61c957a7a0ae.jpeg?alt=media&token=62aa0c85-cdac-4cb3-a2a4-cb8468d88dee&_gl=1*png1k9*_ga*ODg3NjE3NzIuMTY5ODEwODMwNw..*_ga_CW55HF8NVT*MTY5OTA0NjQ1Ny44LjEuMTY5OTA0NzMwMi41OS4wLjA";
-          return Container(
-              height: 200,
+        return Container(
+          alignment: Alignment.center,
+              height: 70,
               child: ListTile(
-                leading: obra.imageUrl != null
-                    ? Image.network(obra.imageUrl!)
+                leading: obra['imageURL'] != null
+                    ? Image.network(obra['imageURL']!)
                     : null,
-                title: Text(obra.tituloObra ?? ''),
-                onTap: () {},
+                title: Text(obra['tituloObra'] ?? ''),
+                onTap: () {
+                   Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => ReviewPage(obra: obra)),
+    );
+                },
               ));
         },
-      ),
+      ): Container(alignment: Alignment.center,child: Padding(padding: EdgeInsets.all(5),child: Text("Nenhuma Obra Encontrada", textAlign: TextAlign.center)),),
     );
   }
 }

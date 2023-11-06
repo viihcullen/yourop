@@ -19,20 +19,29 @@ class _FilterPageState extends State<FilterPage> {
   List<String> selectedGeneros = [];
 
   List<Map<String, dynamic>> availableGeneros = [];
-  final List<String> availableCategoria = [
-    'Games',
-    'Filmes e Séries',
-    'Animes',
-    'Dramas',
-  ];
+  List<Map<String, dynamic>> availableCategoria = [];
 
   void loadGeneros() async{
     Response res = await API.getCategorias();
     if(res.statusCode == 200){
       List<dynamic> gens = jsonDecode(res.body);
+      if(mounted){
       setState(() {
         availableGeneros = gens.cast<Map<String, dynamic>>();
       });
+      }
+    }
+  }
+
+  void loadCategorias() async{
+    Response res = await API.getTipoObras();
+    if(res.statusCode == 200){
+      List<dynamic> tips = jsonDecode(res.body);
+      if(mounted){
+      setState(() {
+        availableCategoria = tips.cast<Map<String, dynamic>>();
+      });
+      }
     }
   }
 
@@ -59,6 +68,7 @@ class _FilterPageState extends State<FilterPage> {
   @override
   void initState() {
     super.initState();
+    loadCategorias();
     loadGeneros();
   }
 
@@ -102,10 +112,10 @@ class _FilterPageState extends State<FilterPage> {
               itemBuilder: (context, index) {
                 final categoria = availableCategoria[index];
                 return CheckboxListTile(
-                  title: Text(categoria),
-                  value: selectedCategoria.contains(categoria),
+                  title: Text(categoria['nomeTipo']),
+                  value: selectedCategoria.contains(categoria['idTipoObra']),
                   onChanged: (value) {
-                    _toggleCategoria(categoria);
+                    _toggleCategoria(categoria['idTipoObra']);
                   },
                 );
               },
@@ -137,9 +147,23 @@ class _FilterPageState extends State<FilterPage> {
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 // Aqui você pode aplicar os filtros e navegar para a página de resultados.
-                _navigateToSearchResults(context);
+                print(selectedCategoria);
+                print(selectedGeneros);
+                List<dynamic> searchResult = [];
+                if(selectedCategoria.length > 0 && selectedGeneros.length > 0){
+                searchResult = jsonDecode((await API.searchFilter(selectedGeneros, selectedCategoria)).body);
+                }else{
+                  if(selectedCategoria.length > 0){
+                    searchResult = jsonDecode((await API.searchForTipoObra(selectedCategoria)).body);
+                  }else if(selectedGeneros.length > 0){
+                    searchResult = jsonDecode((await API.searchForCategoria(selectedGeneros)).body);
+                  }else{
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Selecione um filtro")));
+                  }
+                }
+                _navigateToSearchResults(searchResult.cast<Map<String, dynamic>>());
               },
               child: const Text('Aplicar Filtros'),
             ),
@@ -154,7 +178,7 @@ class _FilterPageState extends State<FilterPage> {
         .push(MaterialPageRoute(builder: (context) => SearchPage()));
   }
 
-  void _navigateToSearchResults(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context)=>SearchResultsPage(filteredObras: [Obra(idObra: "1", tituloObra: "2", resumoObra: "3", idDiretor: "2", idEscritor: "3")])));
+  void _navigateToSearchResults(List<Map<String, dynamic>> filteredObras) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context)=>SearchResultsPage(filteredObras: filteredObras)));
   }
 }

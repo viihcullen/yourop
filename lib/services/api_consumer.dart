@@ -69,4 +69,41 @@ class API {
     var response = await http.get(Uri.https(baseUrl, "api/v1/categoriaobra"));
     return response;
   }
+
+  static Future<http.Response> searchFilter(List<String> categorias, List<String> tipoObras) async{
+    var response = await http.post(Uri.https(baseUrl, "api/v1/obra/search"),
+    headers: <String, String>{
+      'Content-Type': "application/json; charset=UTF-8"
+    },
+    body: jsonEncode({
+      'categorias': categorias,
+      'tipoObras': tipoObras
+    }));
+
+    return response;
+  }
+
+  static Future<http.Response> searchForTipoObra(List<String> tipoObras) async{
+var response = await http.post(Uri.https(baseUrl, "api/v1/obra/search"),
+    headers: <String, String>{
+      'Content-Type': "application/json; charset=UTF-8"
+    },
+    body: jsonEncode({
+      'tipoObras': tipoObras
+    }));
+
+    return response;
+  }
+
+  static Future<http.Response> searchForCategoria(List<String> categorias) async{
+var response = await http.post(Uri.https(baseUrl, "api/v1/obra/search"),
+    headers: <String, String>{
+      'Content-Type': "application/json; charset=UTF-8"
+    },
+    body: jsonEncode({
+      'categorias': categorias
+    }));
+
+    return response;
+  }
 }
