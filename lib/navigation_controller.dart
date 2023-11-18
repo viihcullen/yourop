@@ -3,6 +3,7 @@ import 'package:yourop/screen/Favoritos/favoritos.dart';
 import 'package:yourop/screen/Filter/FilterPage.dart';
 import 'package:yourop/screen/Home/HomePage.dart';
 import 'package:yourop/screen/Perfil/Profile.dart';
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 
 class NavigationController extends StatefulWidget {
   @override
@@ -29,23 +30,16 @@ class _NavigationControllerState extends State<NavigationController> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: _pages[_selectedIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        showUnselectedLabels: false,
-        showSelectedLabels: false,
-        currentIndex: _selectedIndex,
+      bottomNavigationBar: CurvedNavigationBar(
+        backgroundColor: Colors.white,
+        color: Colors.deepPurple,
+        animationDuration: Duration(milliseconds: 300),
         onTap: _onItemTapped,
         items: [
-          BottomNavigationBarItem(
-              icon: Icon(Icons.home, color: Colors.black), label: "Home"),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.favorite, color: Colors.black),
-              label: "Favorite"),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.filter_alt_outlined, color: Colors.black),
-              label: "Filter"),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.person, color: Colors.black), label: "User"),
+          Icon(Icons.home, color: Colors.white),
+          Icon(Icons.favorite, color: Colors.white),
+          Icon(Icons.filter_alt_outlined, color: Colors.white),
+          Icon(Icons.person, color: Colors.white),
         ],
       ),
     );
