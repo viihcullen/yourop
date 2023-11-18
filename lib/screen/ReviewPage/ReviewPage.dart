@@ -35,7 +35,9 @@ class ReviewPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(obra['tituloObra']!),
+        title: Text(obra['tituloObra']!,  style: TextStyle(
+              color: Colors.black,
+            )),
         actions: [
           IconButton(
             icon: Icon(Icons.search_sharp),
@@ -44,6 +46,9 @@ class ReviewPage extends StatelessWidget {
             },
           ),
         ],
+        iconTheme: IconThemeData(
+          color: Colors.black
+        ),
       ),
       body: ListView(
         children: [

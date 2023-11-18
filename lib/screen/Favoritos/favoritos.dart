@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:yourop/screen/ReviewPage/ReviewPage.dart';
 import 'package:yourop/services/api_consumer.dart';
 
 class FavoritosPage extends StatefulWidget {
@@ -22,9 +23,11 @@ class _FavoritosPageState extends State<FavoritosPage> {
         var v = await API.getObra((favs.value as List<Object?>)[i].toString());
         favorits.add(jsonDecode(v.body));
       }
+      if(mounted){
       setState(() {
         favoritos = favorits;
       });
+      }
     }
     
   }
@@ -99,9 +102,17 @@ class FavoritoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => ReviewPage(obra: this.conteudo)),
+    );
+      },
+      child: SizedBox(
       width:
           (MediaQuery.of(context).size.width - 30.0) / 3, // 3 itens por linha
+          height: 210,
       child: Card(
         elevation: 2.0,
         child: Column(
@@ -125,6 +136,7 @@ class FavoritoCard extends StatelessWidget {
           ],
         ),
       ),
+    ),
     );
   }
 }

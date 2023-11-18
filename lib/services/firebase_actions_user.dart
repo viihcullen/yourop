@@ -7,7 +7,10 @@ class FirebaseActionsUser{
     if(user != null){
       DatabaseReference favRef = FirebaseDatabase.instance.ref("/users/${user.uid}/favoritos");
       DataSnapshot favoritos = await favRef.get();
-      List<Object?> tmpFav = (favoritos.value as List<Object?>).toList(growable: true);
+       List<Object?> tmpFav = [];
+      if(favoritos.value != null){
+     tmpFav = (favoritos.value as List<Object?>).toList(growable: true);
+      }
       
       if(status){
         tmpFav.add(idObra);

@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:yourop/screen/Login/EsqueciSenha.dart';
 import 'package:yourop/services/firebase_options.dart';
 import 'package:flutter/material.dart';
 import 'package:yourop/navigation_controller.dart';
@@ -182,7 +183,7 @@ class _LoginPageState extends State<LoginPage> {
                                   onPressed: () {
                                     Navigator.of(context).push(
                                       MaterialPageRoute(
-                                        builder: (context) => RegisterPage(),
+                                        builder: (context) => EsqueciSenha(),
                                       ),
                                     );
                                   },

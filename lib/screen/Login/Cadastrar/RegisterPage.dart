@@ -137,15 +137,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                               'nivelPermissao': 1
                                             });
                                             if (response.statusCode == 200) {
-                                              Navigator.of(context)
-                                                  .pushAndRemoveUntil(
-                                                MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      ValidarEmailPage(
-                                                          user: user),
-                                                ),
-                                                ModalRoute.withName('/'),
-                                              );
+                                              Navigator.of(context).pop();
                                             }
                                           }
                                         }
