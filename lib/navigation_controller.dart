@@ -32,7 +32,7 @@ class _NavigationControllerState extends State<NavigationController> {
       body: _pages[_selectedIndex],
       bottomNavigationBar: CurvedNavigationBar(
         backgroundColor: Colors.white,
-        color: Colors.deepPurple,
+        color: Colors.deepPurple.shade300,
         animationDuration: Duration(milliseconds: 300),
         onTap: _onItemTapped,
         items: [
