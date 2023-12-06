@@ -157,12 +157,12 @@ class _FilterPageState extends State<FilterPage> {
                 print(selectedCategoria);
                 print(selectedGeneros);
                 List<dynamic> searchResult = [];
-                if(selectedCategoria.length > 0 && selectedGeneros.length > 0){
+                if(selectedCategoria.isNotEmpty && selectedGeneros.isNotEmpty){
                 searchResult = jsonDecode((await API.searchFilter(selectedGeneros, selectedCategoria)).body);
                 }else{
-                  if(selectedCategoria.length > 0){
+                  if(selectedCategoria.isNotEmpty){
                     searchResult = jsonDecode((await API.searchForTipoObra(selectedCategoria)).body);
-                  }else if(selectedGeneros.length > 0){
+                  }else if(selectedGeneros.isNotEmpty){
                     searchResult = jsonDecode((await API.searchForCategoria(selectedGeneros)).body);
                   }else{
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Selecione um filtro")));

@@ -30,7 +30,7 @@ class _HomePageState extends State<HomePage> {
     getObra();
   }
 
-  void getObra() async {
+  Future<void> getObra() async {
     Response obrasRes = await API.getObras();
     List<dynamic> ob = jsonDecode(obrasRes.body);
     User? user = FirebaseAuth.instance.currentUser;
@@ -76,12 +76,13 @@ class _HomePageState extends State<HomePage> {
         .push(MaterialPageRoute(builder: (context) => SearchPage()));
   }
 
-  void _navigateToReviewPage(
-      BuildContext context, Map<String, dynamic> content) {
-    Navigator.push(
+  void _navigateToReviewPage  (
+      BuildContext context, Map<String, dynamic> content) async {
+    await Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => ReviewPage(obra: content)),
     );
+    await getObra();
   }
 
   @override
@@ -98,7 +99,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      body: SingleChildScrollView(
+      body: RefreshIndicator(child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -126,7 +127,7 @@ class _HomePageState extends State<HomePage> {
             _buildContentListDoramas(),
           ],
         ),
-      ),
+      ), onRefresh: getObra)
     );
   }
 
@@ -150,7 +151,7 @@ class _HomePageState extends State<HomePage> {
   Widget _buildContentListObras() {
     return obras.length > 0
         ? Container(
-            height: 210,
+            height: 216,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: obras.length,
@@ -170,7 +171,7 @@ class _HomePageState extends State<HomePage> {
             ),
           )
         : Container(
-            height: 180,
+            height: 216,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: 6,
@@ -187,7 +188,7 @@ class _HomePageState extends State<HomePage> {
   Widget _buildContentListFilmes() {
     return obraFilmes.length > 0
         ? Container(
-            height: 210,
+            height: 216,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: obraFilmes.length,
@@ -207,7 +208,7 @@ class _HomePageState extends State<HomePage> {
             ),
           )
         : Container(
-            height: 180,
+            height: 216,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: 6,
@@ -224,7 +225,7 @@ class _HomePageState extends State<HomePage> {
   Widget _buildContentListAnimes() {
     return obrasAnimes.length > 0
         ? Container(
-            height: 210,
+            height: 216,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: obrasAnimes.length,
@@ -244,7 +245,7 @@ class _HomePageState extends State<HomePage> {
             ),
           )
         : Container(
-            height: 180,
+            height: 216,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: 6,
@@ -261,7 +262,7 @@ class _HomePageState extends State<HomePage> {
   Widget _buildContentListDoramas() {
     return obrasDoramas.length > 0
         ? Container(
-            height: 210,
+            height: 216,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: obrasDoramas.length,
@@ -281,7 +282,7 @@ class _HomePageState extends State<HomePage> {
             ),
           )
         : Container(
-            height: 180,
+            height: 216,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: 6,

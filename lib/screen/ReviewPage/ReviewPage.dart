@@ -1,9 +1,7 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:yourop/screen/Pesquisa/SearchPage.dart';
-import '../../models/content.dart';
+import 'package:yourop/services/api_consumer.dart';
 import 'page/description.dart';
 import 'page/critic.dart';
 import 'page/commentspage.dart';
@@ -124,6 +122,7 @@ class ReviewPage extends StatelessWidget {
             child: Column(
               children: [
                 TabBar(
+                  indicatorColor: Color.fromARGB(255, 156, 144, 230),
                   labelColor: Color.fromARGB(255, 156, 144, 230),
                   unselectedLabelColor: Colors.black,
                   tabs: [

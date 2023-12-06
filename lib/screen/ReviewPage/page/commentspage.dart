@@ -52,12 +52,14 @@ class _CommentsPageState extends State<CommentsPage> {
               ),
             ),
             Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.fromLTRB(16.0, 5, 16.0, 16),
                 child: Column(
                   children: [
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        RatingBar.builder(
+                        
+                         RatingBar.builder(
                           initialRating: 0,
                           minRating: 1,
                           direction: Axis.horizontal,
@@ -68,12 +70,16 @@ class _CommentsPageState extends State<CommentsPage> {
                             Icons.star,
                             color: Colors.purple,
                       ),
+                      itemPadding: EdgeInsets.only(left: 10, right: 10),
                         onRatingUpdate: (rating) {
                           print("Avaliação atualizada para $rating");
                           ratingComment = rating;
                         },
-                        )
+                        ),
                       ],
+                    ),
+                    SizedBox(
+                      height: 5,
                     ),
                     Row(
                       children: [
@@ -82,6 +88,9 @@ class _CommentsPageState extends State<CommentsPage> {
                             controller: _commentController,
                             decoration: InputDecoration(
                               hintText: 'Digite seu comentário',
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(10))
+                              )
                             ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
@@ -163,7 +172,7 @@ class _CommentItemState extends State<CommentItem> {
                         backgroundImage: widget.imageURL.isNotEmpty?NetworkImage(widget.imageURL):null,
                         ),
                     title: Text(widget.comment['usuario']['nomeUsuario']),
-                    subtitle: Text(widget.comment['comentarioAvaliacao']),
+                    subtitle: Text(widget.comment['comentarioAvaliacao'], textAlign: TextAlign.justify,),
                   );
   }
 }

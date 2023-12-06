@@ -20,6 +20,11 @@ class API {
     return response;
   }
 
+  static Future<http.Response> getObraById(String id) async{
+    var response = await http.get(Uri.https(baseUrl, 'api/v1/obra/$id'));
+    return response;
+  }
+
   static Future<String> getImageUrl(String name) async {
     final ref = FirebaseStorage.instance
         .refFromURL("gs://db-yourop.appspot.com/obra_images/$name.jpg");
