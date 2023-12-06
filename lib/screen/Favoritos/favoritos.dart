@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:yourop/screen/ReviewPage/ReviewPage.dart';
 import 'package:yourop/services/api_consumer.dart';
 
 class FavoritosPage extends StatefulWidget {
@@ -13,26 +14,35 @@ class FavoritosPage extends StatefulWidget {
 class _FavoritosPageState extends State<FavoritosPage> {
   List<Map<String, dynamic>> favoritos = [];
 
-  getFavoritos() async{
+  getFavoritos() async {
     User? user = FirebaseAuth.instance.currentUser;
-    if(user != null){
-      var favs = await (FirebaseDatabase.instance.ref().child("/users/${user.uid}/favoritos")).get();
+    if (user != null) {
+      var favs = await (FirebaseDatabase.instance
+              .ref()
+              .child("/users/${user.uid}/favoritos"))
+          .get();
       List<Map<String, dynamic>> favorits = [];
-      for (var i = 0; i < (favs.value as List<Object?>).length; i++) {
-        var v = await API.getObra((favs.value as List<Object?>)[i].toString());
-        favorits.add(jsonDecode(v.body));
+      if (favs.value != null) {
+        for (var i = 0; i < (favs.value as List<Object?>).length; i++) {
+          var v =
+              await API.getObra((favs.value as List<Object?>)[i].toString());
+          favorits.add(jsonDecode(v.body));
+        }
       }
-      setState(() {
-        favoritos = favorits;
-      });
+      if (mounted) {
+        setState(() {
+          favoritos = favorits;
+        });
+      }
     }
-    
   }
+
   @override
-  void initState(){
+  void initState() {
     super.initState();
     getFavoritos();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,7 +64,7 @@ class _FavoritosPageState extends State<FavoritosPage> {
         ],
       ),
       body: Center(
-        child: Container(
+        child: favoritos.length==0?CircularProgressIndicator():Container(
           padding: EdgeInsets.only(top: 30),
           child: Column(
             children: [
@@ -99,30 +109,40 @@ class FavoritoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width:
-          (MediaQuery.of(context).size.width - 30.0) / 3, // 3 itens por linha
-      child: Card(
-        elevation: 2.0,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Image.network(
-              conteudo['imageURL'],
-              height: 100.0,
-              width: double.infinity,
-              fit: BoxFit.cover,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                conteudo['tituloObra'],
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => ReviewPage(obra: this.conteudo)),
+        );
+      },
+      child: SizedBox(
+        width:
+            (MediaQuery.of(context).size.width - 30.0) / 3, // 3 itens por linha
+        height: 210,
+        child: Card(
+          elevation: 2.0,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Image.network(
+                conteudo['imageURL'],
+                height: 100.0,
+                width: double.infinity,
+                fit: BoxFit.cover,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  conteudo['tituloObra'],
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

@@ -37,13 +37,7 @@ class _ProfileState extends State<Profile> {
     try {
       User? user = FirebaseAuth.instance.currentUser;
       if (user != null) {
-        DatabaseReference userRef =
-            FirebaseDatabase.instance.ref().child('users/${user.uid}');
-        DatabaseEvent dbEvent = await userRef.once();
-        Map<Object?, Object?> data =
-            dbEvent.snapshot.value as Map<Object?, Object?>;
-
-        return data.entries.first.value
+        return user.displayName
             .toString(); // Retorna o nome do usuário, ou uma string vazia se não houver um nome
       }
       return ''; // Retorna uma string vazia se o usuário não estiver autenticado
@@ -60,6 +54,7 @@ class _ProfileState extends State<Profile> {
         setState(() {
           imageFile = picture;
         });
+        await _uploadImageToFirebaseStorage();
         Navigator.of(context).pop();
       }
     } catch (error) {
@@ -75,6 +70,7 @@ class _ProfileState extends State<Profile> {
           imageFile = picture;
         });
         Navigator.of(context).pop();
+        await _uploadImageToFirebaseStorage();
       }
     } catch (error) {
       print('Erro ao abrir a câmera: $error');
@@ -110,18 +106,29 @@ class _ProfileState extends State<Profile> {
           );
         },
       );
-      await _uploadImageToFirebaseStorage();
     } catch (error) {
       print('Erro ao exibir o diálogo de escolha: $error');
     }
   }
 
+  void LoadImageUsuario() async {
+    var imgUser = await _loadImageFromFirebaseStorage();
+    setState(() {
+      imageUrl = imgUser;
+    });
+  }
+
   Future<String> _loadImageFromFirebaseStorage() async {
     User? user = FirebaseAuth.instance.currentUser;
     if (user != null) {
+      String downloadURL = "";
       Reference storageReference =
           FirebaseStorage.instance.ref().child('profile_images/${user.uid}');
-      String downloadURL = await storageReference.getDownloadURL();
+      try {
+        downloadURL = await storageReference.getDownloadURL();
+      } catch (e) {
+        //
+      }
       return downloadURL;
     }
     return '';
@@ -131,11 +138,13 @@ class _ProfileState extends State<Profile> {
     try {
       User? user = FirebaseAuth.instance.currentUser;
       if (user != null && imageFile != null) {
+        print("Teste");
         Reference storageReference =
             FirebaseStorage.instance.ref().child('profile_images/${user.uid}');
         UploadTask uploadTask = storageReference.putFile(File(imageFile!.path));
         TaskSnapshot snapshot = await uploadTask.whenComplete(() => null);
         String downloadURL = await snapshot.ref.getDownloadURL();
+        print(downloadURL);
         setState(() {
           imageUrl = downloadURL;
         });
@@ -148,10 +157,23 @@ class _ProfileState extends State<Profile> {
   Widget _decideImageView(BuildContext context) {
     try {
       if (imageUrl.isNotEmpty) {
-        return CircleAvatar(
-          radius: 60,
-          backgroundImage: NetworkImage(imageUrl),
-        );
+        return Stack(alignment: Alignment.bottomRight, children: [
+          CircleAvatar(
+            radius: 60,
+            backgroundImage: NetworkImage(imageUrl),
+          ),
+          Positioned(
+            right: 8,
+            bottom: 8,
+            child: IconButton(
+              color: Colors.white,
+              icon: Icon(Icons.camera_alt),
+              onPressed: () {
+                _showChoiceDialog(context);
+              },
+            ),
+          ),
+        ]);
       } else if (imageFile != null) {
         return Stack(
           alignment: Alignment.bottomRight,
@@ -250,6 +272,13 @@ class _ProfileState extends State<Profile> {
     } catch (error) {
       print('Erro ao exibir o diálogo de confirmação de logout: $error');
     }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    LoadImageUsuario();
   }
 
   @override

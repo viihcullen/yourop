@@ -1,4 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:yourop/screen/ReviewPage/ReviewPage.dart';
+import 'package:yourop/services/api_consumer.dart';
 
 class SearchPage extends StatefulWidget {
   @override
@@ -6,13 +11,9 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
-  String searchQuery = '';
-
-  void _onSearch(String query) {
-    setState(() {
-      searchQuery = query;
-    });
-  }
+  bool onSearching = false;
+  TextEditingController searchQueryController = TextEditingController();
+  List<Map<String, dynamic>> searchResult = [];
 
   @override
   Widget build(BuildContext context) {
@@ -34,8 +35,9 @@ class _SearchPageState extends State<SearchPage> {
               height: 20.0,
             ),
             TextField(
+              controller: searchQueryController,
+              onEditingComplete: _getFilteredResults,
               style: TextStyle(color: Colors.black),
-              onChanged: _onSearch,
               decoration: InputDecoration(
                 filled: true,
                 fillColor: Colors.grey.shade200,
@@ -54,20 +56,34 @@ class _SearchPageState extends State<SearchPage> {
               height: 20.0,
             ),
             Expanded(
-              child: ListView.builder(
-                itemCount: _getFilteredResults().length,
+              child: !onSearching?(
+                searchResult.length>0?ListView.builder(
+                itemCount: searchResult.length,
                 itemBuilder: (context, index) {
-                  final result = _getFilteredResults()[index];
+                  final result = searchResult[index];
                   return ListTile(
                     leading: CircleAvatar(
                       backgroundImage: NetworkImage(
-                        'https://example.com/${result.toLowerCase()}.jpg', // URL da imagem do conteúdo
+                        result['imageURL'], // URL da imagem do conteúdo
                       ),
                     ),
-                    title: Text(result),
-                    onTap: () {},
+                    title: Text(result['tituloObra'].toString()),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ReviewPage(obra: result)),
+                      );
+                    },
                   );
                 },
+              ): Container(
+                alignment: Alignment.center,
+                child: Text("Nenhum resultado encontrado"),
+              )
+              ):Container(
+                alignment: Alignment.center,
+                child: const CircularProgressIndicator(),
               ),
             ),
           ],
@@ -76,11 +92,21 @@ class _SearchPageState extends State<SearchPage> {
     );
   }
 
-  List<String> _getFilteredResults() {
-    return availableContents
-        .where((content) =>
-            content.toLowerCase().contains(searchQuery.toLowerCase()))
-        .toList();
+  void _getFilteredResults() async {
+    FocusScope.of(context).unfocus();
+    setState(() {
+    onSearching = true;
+    });
+
+    var res = await API.searchForTerm(searchQueryController.text);
+
+    if (res.statusCode == 200) {
+      var result = jsonDecode(res.body) as List<dynamic>;
+      setState(() {
+        searchResult = result.cast<Map<String, dynamic>>();
+        onSearching = false;
+      });
+    }
   }
 
   final List<String> availableContents = [

@@ -17,7 +17,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
   String? _name;
   String? _email;
-  String? _photoUrl;
 
   @override
   void initState() {
@@ -36,7 +35,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 value.snapshot.value as Map<Object?, Object?>;
             _name = data.entries.first.value.toString();
             _email = user.email;
-            _photoUrl = user.photoURL;
           });
         },
       );
@@ -77,13 +75,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 initialValue: _email,
                 readOnly: true,
               ),
-              TextFormField(
-                decoration: InputDecoration(
-                  labelText: 'Foto',
-                ),
-                initialValue: _photoUrl,
-                readOnly: true,
-              ),
               ElevatedButton(
                 onPressed: () {
                   // Verificar se o usuário está conectado
@@ -96,11 +87,12 @@ class _EditProfilePageState extends State<EditProfilePage> {
                         .save(); // Chame o onSaved para atualizar o valor do _name.
 
                     // Verificar se o campo 'nome' tem um valor não vazio
-                    if (_name != null && _name!.isNotEmpty) {
+                    if (_name != null && _name!.isNotEmpty && _email != null && _email!.isNotEmpty) {
                       // Atualizar as informações do usuário no Firebase
                       userRef.update({'name': _name}).then((value) {
                         API.setNomeUsuario(user.uid, _name!);
                         user.updateDisplayName(_name);
+                        user.updateEmail(_email!);
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             content: Text('Perfil atualizado com sucesso!'),
